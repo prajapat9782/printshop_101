@@ -9,3 +9,4 @@ function Pre($solo){
     echo '<pre>';
     print_r($solo);
 } 
+?>

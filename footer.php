@@ -182,11 +182,16 @@ $(document).ready(function(){
         method:'POST',
         data:{email:email,password:password},
         success:function(res){
-        if(res=='reject'){
-          $('#login_error').html('Please provide login details');
-        }else(
-          alert('login successfully');
-        )
+          // alert(res);
+          if(res=='reject'){
+            $('#login_error').html('Please provide currect login details');
+          }if(res=='missmatch'){
+            $('#login_error').html('Wrong password! please try again');
+          }
+          if(res=='accept') {
+            // alert('login successfully');
+            window.location.href = window.location.href;
+          }
         }
       })
     }
@@ -240,6 +245,7 @@ $(document).ready(function(){
               $('#register_error').html('This email already in use, please try another one');
             }else{
               alert('register successfully');
+              window.location.href=windwo.location.href;
             }
           }
         });
@@ -247,9 +253,61 @@ $(document).ready(function(){
   
   });
 
+  $('.addtocart').click(function(){      
+      var id = $(this).attr('p_id');
+      var qty = $('#productcount').val();
+      // alert(qty);
+      $.ajax({
+          url: "updatecart.php",
+          method: "POST",          
+          data: {pid: id,qty:qty,type: "add"},
+          success: function(res){
+            // alert(res);
+              window.location.href=window.location.href;
+          }
+        
+      });
+      
+    })
+
+
+
+
+  $('.remove_product').click(function(){
+    var id = $(this).attr('pid');
+    $.ajax({
+          url: "updatecart.php",
+          method: "POST",          
+          data: {pid: id,type: "remove"},
+          success: function(res){
+              // alert(res);
+              window.location.href=window.location.href;
+          }
+        
+      });
+  });
+
 
 
 })
+
+
+function manage_cart(pid, type){
+  // alert('manage function');
+  if(type='update'){
+    var qty = $('#'+pid+'qty').val();
+  }
+  jQuery.ajax({
+    url: 'updatecart.php',
+    method: 'POST',
+    data: {pid: pid,qty: qty,type: 'update'},
+    success: function(res){
+      // alert(res);
+      window.location.href=window.location.href;
+    }
+  });
+  
+}
 
 </script>
 

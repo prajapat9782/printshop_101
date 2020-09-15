@@ -1,4 +1,13 @@
-<?php include('header.php');?>
+<?php
+ include('header.php');
+ if(!isset($_SESSION['cart']) || count($_SESSION['cart'])==0){
+  ?>
+  <script>
+   window.location.href='index.php';
+  </script>
+  <?php
+}
+?>
  <!-- Cart view section -->
  <section id="checkout">
    <div class="container">
@@ -11,7 +20,7 @@
                 <div class="checkout-left">
                   <div class="panel-group" id="accordion">
                     <!-- Coupon section -->
-                    <div class="panel panel-default aa-checkout-coupon">
+                    <!-- <div class="panel panel-default aa-checkout-coupon">
                       <div class="panel-heading">
                         <h4 class="panel-title">
                           <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
@@ -25,7 +34,7 @@
                           <input type="submit" value="Apply Coupon" class="aa-browse-btn">
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                     <!-- Login section -->
                     <div class="panel panel-default aa-checkout-login">
                       <div class="panel-heading">
@@ -35,9 +44,9 @@
                           </a>
                         </h4>
                       </div>
-                      <div id="collapseTwo" class="panel-collapse collapse">
+                      <div id="collapseTwo" class="panel-collapse collapse in">
                         <div class="panel-body">
-                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat voluptatibus modi pariatur qui reprehenderit asperiores fugiat deleniti praesentium enim incidunt.</p>
+                          
                           <input type="text" placeholder="Username or email">
                           <input type="password" placeholder="Password">
                           <button type="submit" class="aa-browse-btn">Login</button>
@@ -270,15 +279,25 @@
                         </tr>
                       </thead>
                       <tbody>
+                      <?php $subtotle = 0;
+                         foreach($_SESSION['cart'] as $x => $val){
+                            
+                            $q = "select * FROM products WHERE id ='$x'";
+                            $res = mysqli_query($conn, $q);
+                            $data = mysqli_fetch_assoc($res);                            
+                            $qty = $val['qty'];
+                            $subtotle+= ($data['sell_price']*$qty);
+                        ?>
                         <tr>
-                          <td>T-Shirt <strong> x  1</strong></td>
-                          <td>$150</td>
+                          <td><?php echo $data['name']?><strong> x <?php echo $qty;?></strong></td>
+                          <td>$<?php echo $data['sell_price']*$qty?></td>
                         </tr>
+                         <?php }?> 
                       </tbody>
                       <tfoot>                        
                          <tr>
-                          <th>Product</th>
-                          <th>Totle</th>
+                          <th>Subtotle</th>
+                          <th>$<?php echo $subtotle?></th>
                         </tr>
                       </tfoot>
                     </table>

@@ -26,9 +26,10 @@
                   <div class="aa-product-view-slider">                                
                     <div id="demo-1" class="simpleLens-gallery-container">
                       <div class="simpleLens-container">
-                        <div class="simpleLens-big-image-container"><a data-lens-image="img/view-slider/large/polo-shirt-1.png" class="simpleLens-lens-image"><img src="img/view-slider/medium/polo-shirt-1.png" class="simpleLens-big-image"></a></div>
+                        <div class="simpleLens-big-image-container"><img src="media/product/<?php echo $details['image']?>" width="250" height="300" class="simpleLens-big-image"></div>
                       </div>
-                      <div class="simpleLens-thumbnails-container">
+                      <!-- class="simpleLens-lens-image" for view in model -->
+                      <!-- <div class="simpleLens-thumbnails-container">
                           <a data-big-image="img/view-slider/medium/polo-shirt-1.png" data-lens-image="img/view-slider/large/polo-shirt-1.png" class="simpleLens-thumbnail-wrapper" href="#">
                             <img src="img/view-slider/thumbnail/polo-shirt-1.png">
                           </a>                                    
@@ -38,14 +39,14 @@
                           <a data-big-image="img/view-slider/medium/polo-shirt-4.png" data-lens-image="img/view-slider/large/polo-shirt-4.png" class="simpleLens-thumbnail-wrapper" href="#">
                             <img src="img/view-slider/thumbnail/polo-shirt-4.png">
                           </a>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
                 <!-- Modal view content -->
                 <div class="col-md-7 col-sm-7 col-xs-12">
                   <div class="aa-product-view-content">
-                    <h3>T-Shirt</h3>
+                    <h3><?php echo $details['name']?></h3>
                     <div class="aa-price-block">
                       <span class="aa-product-view-price">$<?php echo $details['price']?></span>
                       <p class="aa-product-avilability">Avilability: <span style="color: green;"><?php if($details['status']=='1'){ echo "In Stock"; } ?></span><span style="color: red;"> <?php if($details['status']=='0'){echo "Out of Stock"; } ?></span></p>
@@ -67,22 +68,22 @@
                       <a href="#" class="aa-color-white"></a>                      
                     </div> -->
                     <div class="aa-prod-quantity">
-                      <form action="">
-                        <select id="productcount" name="productcount">
-                          <option selected="1" value="0">1</option>
-                          <option value="1">2</option>
-                          <option value="2">3</option>
-                          <option value="3">4</option>
-                          <option value="4">5</option>
-                          <option value="5">6</option>
+                      
+                        <select id="productcount"  name="productcount">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
                         </select>
-                      </form>
+                      
                       <p class="aa-prod-category">
                         Category: <a href="#">Polo T-Shirt</a>
                       </p>
                     </div>
                     <div class="aa-prod-view-bottom">
-                      <a class="aa-add-to-cart-btn addtocart" href="javascript:void(0)" p_id='<?php echo $details['id']?>'>Add To Cart</a>
+                      <a class="aa-add-to-cart-btn addtocart"  href="javascript:void(0)"  p_id='<?php echo $details['id']?>'>Add To Cart</a>
                       <a class="aa-add-to-cart-btn" href="#">Wishlist</a>
                       <!-- <a class="aa-add-to-cart-btn" href="#">Compare</a> -->
                     </div>
@@ -413,22 +414,4 @@
 
 
   <?php include('footer.php');?>
-  <script>
-  $(document).ready(function(){
-    $('.addtocart').click(function(){      
-      var id = $(this).attr('p_id');
-      alert(id);
-      $.ajax({
-          url: "updatecart.php",
-          method: "POST",
-          async: false,
-          data: {p_id: id,check: "updatecart"},
-          success: function(res){
-              alert(res);
-          }
-        
-      });
-      
-    })
-  })
-  </script>
+  

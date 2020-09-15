@@ -1,5 +1,5 @@
 <?php include('header.php');
-  include('config.php');
+  // Pre($_SESSION);
  
 ?>
   <!-- Start slider -->
@@ -95,7 +95,7 @@
                   <div class="aa-promo-left">                  
                     <div class="aa-promo-banner">                    
                       <a href="www.google.com">
-                        <img src="img/<?php echo $mData['image']?>" alt="img">   
+                        <img src="media/category/<?php echo $mData['image']?>" alt="img">   
                       </a>                   
                         <div class="aa-prom-content">
                           <span><?php echo $mData['tag']?>% OFF</span>
@@ -113,10 +113,10 @@
                 ?>
                   <div class="aa-single-promo-right">
                     <div class="aa-promo-banner">                      
-                      <img src="category/<?php echo $row['image']?>" alt="img">                      
+                      <img src="media/category/<?php echo $row['image']?>" alt="img">                      
                       <div class="aa-prom-content">
                         <span>Exclusive Item</span>
-                        <h4><a href="product.php?catID=<?php echo $row['id']?>"><?php echo $row['name']?></a></h4>                        
+                        <h4 ><a href="product.php?catID=<?php echo $row['id']?>" style="color:#000 !important"><?php echo $row['name']?></a></h4>                        
                       </div>
                     </div>
                   </div>

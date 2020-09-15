@@ -1,7 +1,9 @@
 <?php
-if(session_id() == '') {
-    session_start();
-}
+if(!isset($_SESSION)) 
+{ 
+    session_start(); 
+} 
+
 $host = "localhost";
 $usrname ="root";
 $password ="";
@@ -15,3 +17,4 @@ if(mysqli_connect_errno()){
     die;
     
 }
+

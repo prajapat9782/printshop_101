@@ -1,5 +1,7 @@
 <?php include('header.php');
-require('function.php');
+  if(isset($_SESSION['user']['login'])){ ?>
+    <script>window.location.href='index.php';</script>
+<?php  }
 
 ?>
 
@@ -63,7 +65,7 @@ require('function.php');
                 <div class="col-md-6">
                   <div class="aa-myaccount-login">
                   <h4>Login</h4>
-                  <form method="POST" id="login_form" class="aa-login-form">
+                  <form  id="login_form" method="POST" class="aa-login-form">
                   <p id="login_error" style="color:red;margin-bottom:5px"></p>  
                     <label for="">Username or Email address<span>*</span></label>
                     <input type="email" id="login_email" class="form-control"  placeholder="Username or email" required>                    
@@ -71,7 +73,7 @@ require('function.php');
                     <input type="password" id="login_password" class="form-control" placeholder="Password" required>                      
                       <!-- <a href="#" style="color:blue">reset password?</a><br> -->
                       <!-- <button   onclick="user_login()" class="aa-browse-btn">Login</button> <br><br> -->
-                      <button class="btn btn-primary">Login</button>
+                      <button class="btn btn-primary"  id="login_form">Login</button>
                       <!-- <label class="rememberme" for="rememberme"><input type="checkbox" id="rememberme"> Remember me </label> -->
                       
                       <hr>

@@ -1,4 +1,10 @@
-<?php require('config.php');?>
+<?php require('config.php');
+  include('function.php');
+  include('cart.inc.php');
+  $count= new add_to_cart();
+  $cartCount = $count->countProduct();
+  
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -106,10 +112,16 @@
                 <ul class="aa-head-top-nav-right">
                   <li><a href="#">My Account</a></li>
                   <li class="hidden-xs"><a href="#">Wishlist</a></li>
-                  <li class="hidden-xs"><a href="checkout.php">My Cart</a></li>
+                  <li class="hidden-xs"><a href="cart.php">My Cart</a></li>
                   <!-- <li class="hidden-xs"><a href="checkout.php">Checkout</a></li> -->
                   <!-- <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li> -->
-                  <li><a href="register.php" >Login</a></li>
+                  <?php if(isset($_SESSION['user']['login'])){
+                      echo "<li><a href='logout.php' >logout</a></li>";
+                  }else{
+                    echo "<li><a href='register.php' >Login</a></li>";
+                  } ?>
+                  
+                  
                 </ul>
               </div>
             </div>
@@ -138,10 +150,10 @@
               <!-- / logo  -->
                <!-- cart box -->
               <div class="aa-cartbox">
-                <a class="aa-cart-link" href="checkout.php">
+                <a class="aa-cart-link" href="cart.php">
                   <span class="fa fa-shopping-basket"></span>
                   <span class="aa-cart-title">MY CART</span>
-                  <span class="aa-cart-notify" id='itmenumber' ><?php echo isset($_SESSION['cart_count'])?$_SESSION['cart_count']:0; ?></span>
+                  <span class="aa-cart-notify" id='itmenumber' ><?php echo $cartCount; ?></span>
                 </a>
                 <!-- <div class="aa-cartbox-summary">
                   <ul>

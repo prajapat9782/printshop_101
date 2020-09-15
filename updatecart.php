@@ -1,26 +1,32 @@
 <?php 
-if(empty($_POST['check'])){   
-   exit('something went wrong!');
-}
-else{
-    include('config.php');
-    
-    extract($_POST);
-    $product_id = $_POST['p_id'];
-    $pdata = mysqli_fetch_assoc(mysqli_query($conn, "select * from products where id = '$product_id' limit 1"));
-    $data = array('id'=> $pdata['id'],'image'=>$pdata['image'],'price'=>$pdata['price']);
-    if(isset($_SESSION['items'])){
-        array_push($_SESSION['items'],$data);
-    }else{
-        $_SESSION['items'] = $data;
-    }
-    
-    print_r($_SESSION['items']);
+include('config.php');
+include('function.php');
+include('cart.inc.php');
+extract($_POST);
+// print_r($_POST);
+// die;
 
-   die;
-    
-  
-    
-    
-}
+$pid = get_safe_value($conn, $_POST['pid']);
+$qty = get_safe_value($conn, isset($_POST['qty'])?$_POST['qty']:0);
+$type = get_safe_value($conn, $_POST['type']);
 
+
+
+
+$cart = new add_to_cart();
+
+
+if($type=='add'){   
+    $cart->addproduct($pid,$qty);
+}
+if($type=='remove'){
+    $cart->removeProduct($pid);
+}
+if($type=='update'){
+    $cart->updateProduct($pid,$qty);
+}
+if($type=='empty'){
+    $cart->emptycart();
+}
+echo $cart->countProduct();
+die;
