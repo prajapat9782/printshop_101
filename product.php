@@ -1,46 +1,49 @@
 <?php include('header.php');
   include ('config.php');
-  $limit = 7;
+  $limit = 4;
   $low_to_high='';
   $high_to_low='';
   $new_collectin='';
   $old_collection='';
-
+  // for pagination 
+  if (isset($_GET["page"])) {
+    $page = $_GET["page"]; 
+  } 
+  else{ 
+        $page=1;
+    };  
+    
+    $start_from = ($page-1) * $limit;
+// get cid for products linsting
   if(isset($_GET)){
     if($_GET['catID']==''){
      ?>
       <script>window.location.hred = 'index.php';</script><?php
     }    
     $cid  = $_GET['catID'];    
-      if (isset($_GET["page"])) {
-        $page = $_GET["page"]; 
-      } 
-      else{ 
-            $page=1;
-        };  
-        $start_from = ($page-1) * $limit;
+     
 
-      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY id desc";
+      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY id desc LIMIT $start_from, $limit";
   }
-  
+  // for sorting list
   if(isset($_GET['type'])){
     $cid  = $_GET['catID'];
     $type = $_GET['type'];
     if($type=='low_to_high'){
-      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY sell_price ASC";
+      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY sell_price ASC LIMIT $start_from, $limit";
       $low_to_high='selected';
     }if($type=='high_to_low'){
-      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY sell_price DESC";
+      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY sell_price DESC LIMIT $start_from, $limit";
       $high_to_low='selected';  
     }if($type=='new_collectin'){
-      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY created DESC";      
+      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY created DESC LIMIT $start_from, $limit";      
       $new_collectin='selected';
     }if($type=='old_collection'){
-      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY created ASC";
+      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY created ASC LIMIT $start_from, $limit";
       $old_collection='selected';
     }
     if($type=='Default'){
-      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY id desc ";
+      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY id desc LIMIT $start_from, $limit";
     }
     
   }
@@ -216,11 +219,14 @@
                $res = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(id) as tP FROM products WHERE cid='$cid' AND status = '1'"));
                $totle_records = $res['tP'];
                $totle_pages = ceil($totle_records/$limit);
+               
+
                for($i=1;$i<=$totle_pages;$i++){
                ?>
-                <li><a href="product.php?catID=<?php echo $cid; if(isset($type)){echo '&type='.$type.'&page='.$i;}else{ echo '&page='.$i; }?>"><?php echo $i?></a></li>
+                <li><a href="product.php?catID=<?php echo $cid; if(isset($type)){echo '&type='.$type.'&page='.$i;}else{ echo '&page='.$i; }?>" style="background:<?php if($page==$i){echo '#000;color:#fff';}?>;"><?php echo $i?></a></li>
                <?php }?>
-                <li style="display:<?php if($page==$total_pages){echo 'none';}?>;">
+
+                <li style="display:<?php if($page==$totle_pages){echo 'none';}?>">
                   <a href="product.php?catID=<?php echo $cid; if(isset($type)){echo '&type='.$type.'&page='.$totle_pages;}else{ echo '&page='.$totle_pages; }?>" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
