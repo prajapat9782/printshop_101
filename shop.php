@@ -195,7 +195,7 @@
             <nav>
               <ul class="pagination">
               <?php               
-                $pages = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(id) as tC FROM `products`"));
+                $pages = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(id) as tC FROM `products` WHERE status='1'"));
                 $total_records = $pages['tC'];
                 $total_pages = ceil($total_records / $limit); 
               ?>
@@ -205,7 +205,7 @@
                   </a>
                 </li>
                 <?php for($i=1;$i<=$total_pages;$i++){ ?>
-                    <li><a href="shop.php?page=<?php echo $i?>" style="color:<?php if($page==$i){echo '#000';}?>;"><?php echo $i?></a></li>
+                    <li><a href="shop.php?page=<?php echo $i?>" style="background:<?php if($page==$i){echo '#000;color:#fff';}?>;"><?php echo $i?></a></li>
                 <?php }?>
                 <li style="display:<?php if($page==$total_pages){echo 'none';}?>;">
                   <a href="shop.php?page=<?php echo $total_pages?>" aria-label="Last">

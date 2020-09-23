@@ -402,9 +402,9 @@ function clear_field(){
   $('#check_email_register').html('');
   $('#check_pass').html('');
 }
-function sort_by(id='',page=''){
+function sort_by(id=''){
   var type = $('#sort_by_create').val();
-  alert(page);
+  
   if(id!=''){
     window.location.href = 'http://localhost/vishal/printshop/product.php?catID='+id+'&type='+type;
   }else{

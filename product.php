@@ -1,17 +1,28 @@
 <?php include('header.php');
   include ('config.php');
-  if(isset($_GET)){
-    if($_GET['catID']==''){
-     ?>
-<script>window.location.hred = 'index.php';</script><?php
-    }
-    $cid  = $_GET['catID'];
-    $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY id desc";
-  }
+  $limit = 7;
   $low_to_high='';
   $high_to_low='';
   $new_collectin='';
   $old_collection='';
+
+  if(isset($_GET)){
+    if($_GET['catID']==''){
+     ?>
+      <script>window.location.hred = 'index.php';</script><?php
+    }    
+    $cid  = $_GET['catID'];    
+      if (isset($_GET["page"])) {
+        $page = $_GET["page"]; 
+      } 
+      else{ 
+            $page=1;
+        };  
+        $start_from = ($page-1) * $limit;
+
+      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY id desc";
+  }
+  
   if(isset($_GET['type'])){
     $cid  = $_GET['catID'];
     $type = $_GET['type'];
@@ -196,18 +207,21 @@
           <div class="aa-product-catg-pagination">
             <nav>
               <ul class="pagination">
-                <li>
-                  <a href="#" aria-label="Previous">
+              <li style="display:<?php if($page=='1'){echo 'none';}?>;">
+                  <a href="product.php?catID=<?php echo $cid; if(isset($type)){echo '&type='.$type.'&page=1';}else{ echo '&page=1'; }?>" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li>
-                  <a href="#" aria-label="Next">
+              <?php
+               $res = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(id) as tP FROM products WHERE cid='$cid' AND status = '1'"));
+               $totle_records = $res['tP'];
+               $totle_pages = ceil($totle_records/$limit);
+               for($i=1;$i<=$totle_pages;$i++){
+               ?>
+                <li><a href="product.php?catID=<?php echo $cid; if(isset($type)){echo '&type='.$type.'&page='.$i;}else{ echo '&page='.$i; }?>"><?php echo $i?></a></li>
+               <?php }?>
+                <li style="display:<?php if($page==$total_pages){echo 'none';}?>;">
+                  <a href="product.php?catID=<?php echo $cid; if(isset($type)){echo '&type='.$type.'&page='.$totle_pages;}else{ echo '&page='.$totle_pages; }?>" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
