@@ -219,7 +219,7 @@
                         <li style="border:1px solid #fff">
                           <figure>
                             <a class="aa-product-img" href="product-detail.php?pid=<?php echo $row['id']?>"><img src="media/product/<?php echo $row['image']?>"   width="250px" height="300px" alt="polo shirt img"></a>
-                            <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                            <a class="aa-add-card-btn addtocart"href="javascript:void(0)" p_id=<?php echo $row['id']?>><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                             <figcaption>
                               <h4 class="aa-product-title"><a href="#">This is Title</a></h4>
                               <span class="aa-product-price">$45.50</span><span class="aa-product-price"><del>$65.50</del></span>
@@ -247,7 +247,7 @@
                         <li>
                           <figure>
                             <a class="aa-product-img" href="#"><img src="img/mugs.jpg" alt="polo shirt img"></a>
-                            <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                            <a class="aa-add-card-btn "href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                             <figcaption>
                               <h4 class="aa-product-title"><a href="#">This is Title</a></h4>
                               <span class="aa-product-price">$45.50</span><span class="aa-product-price"><del>$65.50</del></span>
