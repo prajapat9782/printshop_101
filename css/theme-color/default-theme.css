@@ -29,6 +29,11 @@ h2 {
   color: #000;
   border-color: #000;
 }
+.aa-prod-view-bottom a:hover{
+  color:white;
+  border-color:#000;
+  background:#000 !important;
+}
 .aa-filter-btn {
   background-color: #000;
   border: 1px solid #000;  

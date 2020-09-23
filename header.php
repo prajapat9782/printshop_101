@@ -74,7 +74,7 @@
               <div class="aa-header-top-left">
                 <!-- start language -->
                 <div class="aa-language">
-                  <div class="dropdown">
+                  <!-- <div class="dropdown">
                     <a class="btn dropdown-toggle" href="#" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                       <img src="img/flag/english.jpg" alt="english flag">ENGLISH
                       <span class="caret"></span>
@@ -83,13 +83,13 @@
                       <li><a href="#"><img src="img/flag/french.jpg" alt="">FRENCH</a></li>
                       <li><a href="#"><img src="img/flag/english.jpg" alt="">ENGLISH</a></li>
                     </ul>
-                  </div>
+                  </div> -->
                 </div>
                 <!-- / language -->
 
                 <!-- start currency -->
                 <div class="aa-currency">
-                  <div class="dropdown">
+                  <!-- <div class="dropdown">
                     <a class="btn dropdown-toggle" href="#" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                       <i class="fa fa-usd"></i>USD
                       <span class="caret"></span>
@@ -98,12 +98,12 @@
                       <li><a href="#"><i class="fa fa-euro"></i>EURO</a></li>
                       <li><a href="#"><i class="fa fa-jpy"></i>YEN</a></li>
                     </ul>
-                  </div>
+                  </div> -->
                 </div>
                 <!-- / currency -->
                 <!-- start cellphone -->
                 <div class="cellphone hidden-xs">
-                  <p><span class="fa fa-phone"></span>00-62-658-658</p>
+                  <p><span class="fa fa-phone"></span>78389-45334</p>
                 </div>
                 <!-- / cellphone -->
               </div>
@@ -111,14 +111,14 @@
               <div class="aa-header-top-right">
                 <ul class="aa-head-top-nav-right">
                   <li><a href="#">My Account</a></li>
-                  <li class="hidden-xs"><a href="#">Wishlist</a></li>
-                  <li class="hidden-xs"><a href="cart.php">My Cart</a></li>
+                  <li class="hidden-xs"><a href="#">Wishlist</a></li>                  
                   <!-- <li class="hidden-xs"><a href="checkout.php">Checkout</a></li> -->
                   <!-- <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li> -->
                   <?php if(isset($_SESSION['user']['login'])){
                       echo "<li><a href='logout.php' >logout</a></li>";
+                      echo "<li><a href='user_order.php' >Your Order</a></li>";
                   }else{
-                    echo "<li><a href='register.php' >Login</a></li>";
+                    echo "<li><a href='register.php' >Login/Signup</a></li>";
                   } ?>
                   
                   
@@ -148,6 +148,9 @@
                 <!-- <a href="index.html"><img src="img/logo.jpg" alt="logo img"></a> -->
               </div>
               <!-- / logo  -->
+              <?php if(isset($_SESSION['cart'])){
+                    if(count($_SESSION['cart'])>0){  
+              ?>
                <!-- cart box -->
               <div class="aa-cartbox">
                 <a class="aa-cart-link" href="cart.php">
@@ -186,11 +189,12 @@
                 </div> -->
               </div>
               <!-- / cart box -->
+              <?php }}?>
               <!-- search box -->
               <div class="aa-search-box">
-                <form action="">
-                  <input type="text" name="" id="" placeholder="Search here ex. 'man' " style="font-weight: bold;">
-                  <button type="button" class="btn" style="background-color:#000"><span class="fa fa-search"></span></button>
+                <form action="search.php" method="POST">
+                  <input type="text" name="search"  placeholder="Search here ex. 'back cover' " style="font-weight: bold;">
+                  <button type="submit"  class="btn" style="background-color:#000"><span class="fa fa-search"></span></button>
                 </form>
               </div>
               <!-- / search box -->             
@@ -221,7 +225,7 @@
             <ul class="nav navbar-nav">
               <li><a href="index.php">Home</a></li>
               <li><a href="#">Men <span class="caret"></span></a>
-                <ul class="dropdown-menu">                
+                <!-- <ul class="dropdown-menu">                
                   <li><a href="#">Casual</a></li>
                   <li><a href="#">Sports</a></li>
                   <li><a href="#">Formal</a></li>
@@ -237,7 +241,7 @@
                       <li><a href="#">Loafers</a></li>                                      
                     </ul>
                   </li>
-                </ul>
+                </ul> -->
               </li>
               <li><a href="#">Women <span class="caret"></span></a>
                 <ul class="dropdown-menu">  

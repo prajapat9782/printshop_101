@@ -10,18 +10,20 @@
    <div class="container">
      <div class="row">
        <div class="col-md-12">
-        <div class="aa-myaccount-area">         
+            <h3 class="text-center text-uppercase mt-2 mb-0 font-weight-bold" style="color:red"><?php if(isset($_SESSION['check_out_error'])){echo $_SESSION['check_out_error']; $_SESSION['check_out_error']='';}?></h3>
+          <div class="aa-myaccount-area">         
+        
             <div class="row">
+            
                 <div class="col-md-6">
                   <div class="aa-myaccount-register">                 
                   <h4>Register</h4>
                   <form id="register_user" method="POST" class="aa-login-form">
                   <p id="register_error" style="color:red;margin-bottom:5px"></p>  
                     <!-- name details start -->
-                    <div class="row">
-                      <div class="col-md-6">
+                    <div class="row" >
+                      <div class="col-md-6" >
                         <div class="form-group">
-                          
                           <label for="">First Name<span>*</span></label>
                           <input type="text" id="register_fname" class="form-control" placeholder="First Name">
                           <label style="color:red;margin:2px 0;"  class="clear-all" id="reg_fname_error"></label>

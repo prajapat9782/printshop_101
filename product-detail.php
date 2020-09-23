@@ -4,7 +4,7 @@
  if(!empty($_GET['pid'])){
     $product_id = $_GET['pid'];
     require ('config.php');
-    $details = mysqli_fetch_assoc(mysqli_query($conn,"SELECT * FROM products WHERE id = '$product_id' LIMIT 1"));
+    $details = mysqli_fetch_assoc(mysqli_query($conn,"SELECT products.*,category.name as CatName,category.id as catId FROM products INNER JOIN category on products.cid= category.id WHERE products.id = '$product_id' LIMIT 1"));
     
   }
   else{
@@ -26,11 +26,11 @@
                   <div class="aa-product-view-slider">                                
                     <div id="demo-1" class="simpleLens-gallery-container">
                       <div class="simpleLens-container">
-                        <div class="simpleLens-big-image-container"><img src="media/product/<?php echo $details['image']?>" width="250" height="300" class="simpleLens-big-image"></div>
+                        <div class="simpleLens-big-image-container"><img src="media/product/<?php echo $details['image']?>" class="zoom" width="250" height="300" ></div>
                       </div>
-                      <!-- class="simpleLens-lens-image" for view in model -->
+                      <!-- class="simpleLens-lens-image" for view in model   class="simpleLens-big-image" -->
                       <!-- <div class="simpleLens-thumbnails-container">
-                          <a data-big-image="img/view-slider/medium/polo-shirt-1.png" data-lens-image="img/view-slider/large/polo-shirt-1.png" class="simpleLens-thumbnail-wrapper" href="#">
+                          <a data-big-image="img/view-slider/medium/polo-shirt-1.png" data-lens-image="media/product/<?php echo $details['image']?>" class="simpleLens-thumbnail-wrapper" href="#">
                             <img src="img/view-slider/thumbnail/polo-shirt-1.png">
                           </a>                                    
                           <a data-big-image="img/view-slider/medium/polo-shirt-3.png" data-lens-image="img/view-slider/large/polo-shirt-3.png" class="simpleLens-thumbnail-wrapper" href="#">
@@ -79,7 +79,7 @@
                         </select>
                       
                       <p class="aa-prod-category">
-                        Category: <a href="#">Polo T-Shirt</a>
+                        Category: <a href="product.php?catID=<?php echo $details['catId']?>" class='text-uppercase '><?php echo $details['CatName']?></a>
                       </p>
                     </div>
                     <div class="aa-prod-view-bottom">
@@ -414,4 +414,9 @@
 
 
   <?php include('footer.php');?>
-  
+  <script src="js/zoom/jquery.zoom.js"></script>
+  <!-- <script>
+    $(document).ready(function(){
+      $('.zoom').zoom({url: 'photo-big.jpg'});
+    })
+  </script> -->

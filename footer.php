@@ -167,7 +167,6 @@
 $(document).ready(function(){
   // alert(1);
   $('#login_form').submit(function(e){
-    // alert(15246);
   e.preventDefault();
   var email = $('#login_email').val();
   var password = $('#login_password').val();
@@ -256,6 +255,10 @@ $(document).ready(function(){
   $('.addtocart').click(function(){      
       var id = $(this).attr('p_id');
       var qty = $('#productcount').val();
+      // alert(qty+" "+id);
+      if(qty==undefined){
+        qty = 1;
+      }
       // alert(qty);
       $.ajax({
           url: "updatecart.php",
@@ -263,7 +266,7 @@ $(document).ready(function(){
           data: {pid: id,qty:qty,type: "add"},
           success: function(res){
             // alert(res);
-              window.location.href=window.location.href;
+            window.location.href=window.location.href;
           }
         
       });
@@ -308,7 +311,106 @@ function manage_cart(pid, type){
   });
   
 }
+function login_user(){
+  $('.check_error').html('');
+  var email = $('#check_out_email').val();
+  var password = $('#check_out_password').val();
+  if(email==''){
+    $('#check_email').html('email not be null');      
+    } else if(password==''){
+      $('#check_password').html('password not be null');      
+    }
+    if(email!='' && password!=''){
+      jQuery.ajax({
+        url: 'user_login.php',
+        method: 'POST',
+        data:{email:email,password:password},
+        success: function(res){         
+          if(res=='reject'){
+            $('#check_common').html('Please provide currect login details');
+            e.preventDefault()
+          }if(res=='missmatch'){
+            $('#check_common').html('Wrong password! please try again');
+          }
+          if(res=='accept') {
+            // alert('login successfully');
+            window.location.href = window.location.href;
+          }
+        }
+      });
+    }
+}
 
+
+function check_register(){
+  // alert('check_register');
+  // e.preventDefault();
+  // get value form form
+  var fname = $('#check_fname').val();
+  var lname = $('#check_lname').val();
+  var mobile = $('#check_mobile').val();
+  var email = $('#check_email_register').val();
+  var pass = $('#check_pass').val();
+  var error_code = true;
+  var error_mgs = '';
+  // alert(fname+" "+lname+" "+mobile+" "+email+" "+pass);
+  $('#register_check').html('');
+  
+  // validation  
+    if(fname==''){
+      error_mgs += 'First name not be null';
+      error_code= false;      
+    }else if(lname==''){      
+      error_mgs +='Last name not be null';
+      error_code= false;      
+    }else if(mobile==''){     
+      error_mgs +='mobile not be null';
+      error_code= false;      
+    }else if(email==''){     
+      error_mgs +='email not be null';
+      error_code= false;      
+    }else if(pass==''){     
+      error_mgs +='password not be null';
+      error_code= false;      
+    }
+    $('#register_check').html(error_mgs);
+    
+    
+      if(error_code){
+        // alert('ajax called');
+        jQuery.ajax({
+          url:'register_user.php',
+          method:'POST',
+          data:{fname:fname,lname:lname,mobile:mobile,email:email,password:pass},
+          success:function(res){
+            if(res=='reject'){              
+              $('#register_check').html('This email already in use, please try another one');
+            }else{
+              alert('register successfully');
+              window.location.href=windwo.location.href;
+            }
+          }
+        });
+      }
+  
+  
+}
+function clear_field(){
+  $('#check_fname').html('');
+  $('#check_lname').html('');
+  $('#check_mobile').html('');
+  $('#check_email_register').html('');
+  $('#check_pass').html('');
+}
+function sort_by(id=''){
+  var type = $('#sort_by_create').val();
+  if(id!=''){
+    window.location.href = 'http://localhost/vishal/printshop/product.php?catID='+id+'&type='+type;
+  }else{
+    window.location.href = 'http://localhost/vishal/printshop/product.php?type='+type;
+  }
+  
+}
 </script>
 
   </body>

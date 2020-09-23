@@ -2,13 +2,13 @@
  include('header.php');
 //  include('function.php');
 //  Pre($_SESSION);s
-//  if(!isset($_SESSION['cart']) || count($_SESSION['cart'])==0){
+ if(!isset($_SESSION['cart']) || count($_SESSION['cart'])==0){
    ?>
-   <!-- <script>
+   <script>
     window.location.href='index.php';
-   </script> -->
+   </script>
    <?php
-//  }
+ }
  ?>
  
  
@@ -22,7 +22,7 @@
            <div class="cart-view-table">
            
                <div class="table-responsive">
-               <?php if( !count($_SESSION['cart'])==0 ){ ?>
+              
                     <table class="table">
                       <thead>
                         <tr>
@@ -69,9 +69,7 @@
                         </tr> -->
                         </tbody>
                     </table>
-                <?php }else{
-                  echo "<h1>No items in your cart</h1>";
-                }?>  
+                 
                 </div>
                 <?php if( !count($_SESSION['cart'])==0 ){ ?>
              <!-- Cart Total view -->
