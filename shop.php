@@ -1,42 +1,40 @@
 <?php include('header.php');
   include ('config.php');
-  if(isset($_GET)){
-    if($_GET['catID']==''){
-     ?>
-<script>window.location.hred = 'index.php';</script><?php
-    }
-    $cid  = $_GET['catID'];
-    $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY id desc";
-  }
-  $low_to_high='';
-  $high_to_low='';
-  $new_collectin='';
-  $old_collection='';
-  if(isset($_GET['type'])){
-    $cid  = $_GET['catID'];
-    $type = $_GET['type'];
-    if($type=='low_to_high'){
-      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY sell_price ASC";
-      $low_to_high='selected';
-    }if($type=='high_to_low'){
-      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY sell_price DESC";
-      $high_to_low='selected';  
-    }if($type=='new_collectin'){
-      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY created DESC";      
-      $new_collectin='selected';
-    }if($type=='old_collection'){
-      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY created ASC";
-      $old_collection='selected';
-    }
-    if($type=='Default'){
-      $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY id desc ";
-    }
+  
+  $limit = 7;  
+  if (isset($_GET["page"])) {
+        $page = $_GET["page"]; 
+      } 
+  else{ 
+        $page=1;
+    };  
+    $start_from = ($page-1) * $limit;
+//   $low_to_high='';
+//   $high_to_low='';
+//   $new_collectin='';
+//   $old_collection='';
+//   if(isset($_GET['type'])){  
+//     $type = $_GET['type'];
+//     if($type=='low_to_high'){
+//       $q = "SELECT * FROM `products` WHERE status = '1' ORDER BY sell_price ASC";
+//       $low_to_high='selected';
+//     }if($type=='high_to_low'){
+//       $q = "SELECT * FROM `products` WHERE status = '1' ORDER BY sell_price DESC";
+//       $high_to_low='selected';  
+//     }if($type=='new_collectin'){
+//       $q = "SELECT * FROM `products` WHERE status = '1' ORDER BY created DESC";      
+//       $new_collectin='selected';
+//     }if($type=='old_collection'){
+//       $q = "SELECT * FROM `products` WHERE status = '1'  ORDER BY created ASC";
+//       $old_collection='selected';
+//     }
+//     if($type=='Default'){
+//       $q = "SELECT * FROM `products` WHERE status = '1' ORDER BY id desc ";
+//     }
     
-  }
-  else{
-    ?>
-<script>window.location.hred = 'index.php';</script><?php
-  }
+//   }
+  
+  $q = "SELECT * FROM `products` WHERE status = '1' ORDER BY id DESC LIMIT $start_from, $limit";
   
 ?>
 <!-- product category -->
@@ -47,16 +45,16 @@
         <div class="aa-product-catg-content">
           <div class="aa-product-catg-head">
             <div class="aa-product-catg-head-left">
-              <form action="" class="aa-sort-form">
+              <!-- <form method="POST" class="aa-sort-form">
                 <label for="">Sort by</label>
-                <select id="sort_by_create" onchange=(sort_by(<?php echo isset($_GET['catID'])?$_GET['catID']:''?>))>
+                <select id="sort_by_create" onchange=(sort_by())>
                   <option>Default</option>
                   <option value="low_to_high" <?php echo $low_to_high?>>Price Low to High</option>
                   <option value="high_to_low" <?php echo $high_to_low?>>Price High to Low</option>
                   <option value="new_collectin" <?php echo $new_collectin?>>New Collection</option>
                   <option value="old_collection" <?php echo $old_collection?>>Old Collection</option>
                 </select>
-              </form>
+              </form> -->
               <!-- <form action="" class="aa-show-form">
                   <label for="">Show</label>
                   <select name="">
@@ -196,18 +194,21 @@
           <div class="aa-product-catg-pagination">
             <nav>
               <ul class="pagination">
-                <li>
-                  <a href="#" aria-label="Previous">
+              <?php               
+                $pages = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(id) as tC FROM `products`"));
+                $total_records = $pages['tC'];
+                $total_pages = ceil($total_records / $limit); 
+              ?>
+                <li style="display:<?php if($page=='1'){echo 'none';}?>;" title="first page">
+                  <a href="shop.php?page=1"  aria-label="First">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li>
-                  <a href="#" aria-label="Next">
+                <?php for($i=1;$i<=$total_pages;$i++){ ?>
+                    <li><a href="shop.php?page=<?php echo $i?>" style="color:<?php if($page==$i){echo '#000';}?>;"><?php echo $i?></a></li>
+                <?php }?>
+                <li style="display:<?php if($page==$total_pages){echo 'none';}?>;">
+                  <a href="shop.php?page=<?php echo $total_pages?>" aria-label="Last">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
@@ -226,71 +227,14 @@
                 while($catrow = mysqli_fetch_assoc($res)){
               ?>
               <li><a href="product.php?catID=<?php echo $catrow['id']?>"><?php echo $catrow['name']?></a></li>
-              <!-- <li><a href="">Women</a></li>
-                <li><a href="">Kids</a></li>
-                <li><a href="">Electornics</a></li>
-                <li><a href="">Sports</a></li> -->
+              
               <?php }?>
             </ul>
           </div>
-          <!-- single sidebar -->
-          <div class="aa-sidebar-widget">
-            <h3>Tags</h3>
-            <div class="tag-cloud">
-              <a href="#">Fashion</a>
-              <a href="#">Ecommerce</a>
-              <a href="#">Shop</a>
-              <a href="#">Hand Bag</a>
-              <a href="#">Laptop</a>
-              <a href="#">Head Phone</a>
-              <a href="#">Pen Drive</a>
-            </div>
-          </div>
-          <!-- single sidebar -->
-          <!-- <div class="aa-sidebar-widget">
-            <h3>Shop By Price</h3>
-            price range
-            <div class="aa-sidebar-price-range">
-              <form action="">
-                <div id="skipstep" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-                </div>
-                <span id="skip-value-lower" class="example-val">30.00</span>
-                <span id="skip-value-upper" class="example-val">100.00</span>
-                <button class="aa-filter-btn" type="submit">Filter</button>
-              </form>
-            </div>
+         
+          
 
-          </div> -->
-
-          <!-- single sidebar -->
-          <!-- <div class="aa-sidebar-widget">
-              <h3>Recently Views</h3>
-              <div class="aa-recently-views">
-                <ul>
-                  <li>
-                    <a href="#" class="aa-cartbox-img"><img alt="img" src="img/woman-small-2.jpg"></a>
-                    <div class="aa-cartbox-info">
-                      <h4><a href="#">Product Name</a></h4>
-                      <p>1 x $250</p>
-                    </div>                    
-                  </li>
-                  <li>
-                    <a href="#" class="aa-cartbox-img"><img alt="img" src="img/woman-small-1.jpg"></a>
-                    <div class="aa-cartbox-info">
-                      <h4><a href="#">Product Name</a></h4>
-                      <p>1 x $250</p>
-                    </div>                    
-                  </li>
-                   <li>
-                    <a href="#" class="aa-cartbox-img"><img alt="img" src="img/woman-small-2.jpg"></a>
-                    <div class="aa-cartbox-info">
-                      <h4><a href="#">Product Name</a></h4>
-                      <p>1 x $250</p>
-                    </div>                    
-                  </li>                                      
-                </ul>
-              </div>                            
-            </div> -->
+          
           <!-- single sidebar -->
           <div class="aa-sidebar-widget">
             <h3>Top Rated Products</h3>

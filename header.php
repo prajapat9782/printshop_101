@@ -11,8 +11,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">    
-    <title>Daily Shop | Home</title>
-    
+    <title>Print Shop | Customized</title>
+    <link rel="icon" href="img/flag/english.jpg" type="icon type">
     <!-- Font awesome -->
     <link href="css/font-awesome.css" rel="stylesheet">
     <!-- Bootstrap -->
@@ -110,11 +110,12 @@
               <!-- / header top left -->
               <div class="aa-header-top-right">
                 <ul class="aa-head-top-nav-right">
-                  <li><a href="#">My Account</a></li>
-                  <li class="hidden-xs"><a href="#">Wishlist</a></li>                  
+                  <!-- <li><a href="#">My Account</a></li> -->
+                                  
                   <!-- <li class="hidden-xs"><a href="checkout.php">Checkout</a></li> -->
                   <!-- <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li> -->
                   <?php if(isset($_SESSION['user']['login'])){
+                      echo "<li class='hidden-xs'><a href='#'>Wishlist</a></li>";  
                       echo "<li><a href='logout.php' >logout</a></li>";
                       echo "<li><a href='user_order.php' >Your Order</a></li>";
                   }else{
@@ -224,65 +225,16 @@
             <!-- Left nav -->
             <ul class="nav navbar-nav">
               <li><a href="index.php">Home</a></li>
-              <li><a href="#">Men <span class="caret"></span></a>
-                <!-- <ul class="dropdown-menu">                
-                  <li><a href="#">Casual</a></li>
-                  <li><a href="#">Sports</a></li>
-                  <li><a href="#">Formal</a></li>
-                  <li><a href="#">Standard</a></li>                                                
-                  <li><a href="#">T-Shirts</a></li>
-                  <li><a href="#">Shirts</a></li>
-                  <li><a href="#">Jeans</a></li>
-                  <li><a href="#">Trousers</a></li>
-                  <li><a href="#">And more.. <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="#">Sleep Wear</a></li>
-                      <li><a href="#">Sandals</a></li>
-                      <li><a href="#">Loafers</a></li>                                      
-                    </ul>
-                  </li>
-                </ul> -->
+              <li><a href="shop.php">Shop <span class="caret"></span></a>
               </li>
-              <li><a href="#">Women <span class="caret"></span></a>
+              <li><a href="#">Category <span class="caret"></span></a>
                 <ul class="dropdown-menu">  
-                  <li><a href="#">Kurta & Kurti</a></li>                                                                
-                  <li><a href="#">Trousers</a></li>              
-                  <li><a href="#">Casual</a></li>
-                  <li><a href="#">Sports</a></li>
-                  <li><a href="#">Formal</a></li>                
-                  <li><a href="#">Sarees</a></li>
-                  <li><a href="#">Shoes</a></li>
-                  <li><a href="#">And more.. <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="#">Sleep Wear</a></li>
-                      <li><a href="#">Sandals</a></li>
-                      <li><a href="#">Loafers</a></li>
-                      <li><a href="#">And more.. <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                          <li><a href="#">Rings</a></li>
-                          <li><a href="#">Earrings</a></li>
-                          <li><a href="#">Jewellery Sets</a></li>
-                          <li><a href="#">Lockets</a></li>
-                          <li class="disabled"><a class="disabled" href="#">Disabled item</a></li>                       
-                          <li><a href="#">Jeans</a></li>
-                          <li><a href="#">Polo T-Shirts</a></li>
-                          <li><a href="#">SKirts</a></li>
-                          <li><a href="#">Jackets</a></li>
-                          <li><a href="#">Tops</a></li>
-                          <li><a href="#">Make Up</a></li>
-                          <li><a href="#">Hair Care</a></li>
-                          <li><a href="#">Perfumes</a></li>
-                          <li><a href="#">Skin Care</a></li>
-                          <li><a href="#">Hand Bags</a></li>
-                          <li><a href="#">Single Bags</a></li>
-                          <li><a href="#">Travel Bags</a></li>
-                          <li><a href="#">Wallets & Belts</a></li>                        
-                          <li><a href="#">Sunglases</a></li>
-                          <li><a href="#">Nail</a></li>                       
-                        </ul>
-                      </li>                   
-                    </ul>
-                  </li>
+                <?php $res = mysqli_query($conn, "SELECT * FROM `category` WHERE status ='1'");
+                      while($row = mysqli_fetch_assoc($res)){
+                ?>
+                  <li><a href="product.php?catID=<?php echo $row['id']?>"><?php echo $row['name']?></a></li>                                                                
+                 
+                 <?php }?>
                 </ul>
               </li>
               <li><a href="#">Kids <span class="caret"></span></a>
@@ -330,13 +282,13 @@
                 </ul>
               </li> -->
               <!-- <li><a href="#">Contact</a></li> -->
-              <li><a href="#">Pages <span class="caret"></span></a>
+              <!-- <li><a href="#">Pages <span class="caret"></span></a>
                 <ul class="dropdown-menu">                
                   <li><a href="product.php">Shop Page</a></li>
                   <li><a href="product-detail.php">Shop Single</a></li>                
                   <li><a href="404.html">404 Page</a></li>                
                 </ul>
-              </li>
+              </li> -->
             </ul>
           </div><!--/.nav-collapse -->
         </div>
