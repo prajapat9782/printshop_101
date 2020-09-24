@@ -193,8 +193,8 @@
               <?php }}?>
               <!-- search box -->
               <div class="aa-search-box">
-                <form action="search.php" method="POST">
-                  <input type="text" name="search"  placeholder="Search here ex. 'back cover' " style="font-weight: bold;">
+                <form action="search.php" method="GET">
+                  <input type="text" name="search"  placeholder="Search here ex. 'back cover' " style="font-weight: bold;" required>
                   <button type="submit"  class="btn" style="background-color:#000"><span class="fa fa-search"></span></button>
                 </form>
               </div>

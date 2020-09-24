@@ -20,9 +20,7 @@
      ?>
       <script>window.location.hred = 'index.php';</script><?php
     }    
-    $cid  = $_GET['catID'];    
-     
-
+    $cid  = $_GET['catID'];  
       $q = "SELECT * FROM `products` WHERE cid = '$cid' ORDER BY id desc LIMIT $start_from, $limit";
   }
   // for sorting list

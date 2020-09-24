@@ -1,5 +1,52 @@
 <?php include('header.php');
   include ('config.php');
+  $limit = 2;
+  $low_to_high='';
+  $high_to_low='';
+  $new_collectin='';
+  $old_collection='';
+  // for pagination 
+  if (isset($_GET["page"])) {
+    $page = $_GET["page"]; 
+  } 
+  else{ 
+        $page=1;
+    };  
+    
+    $start_from = ($page-1) * $limit;
+// for search parameters/filters
+  if(empty($_GET)||$_GET['search']==''){
+    ?><script>window.location.href='shop.php';</script> <?php
+  }
+  else{
+    $type  = $_GET['search'];
+    if(isset($_GET['sortby'])){
+
+      $sort_type = $_GET['sortby'];
+      if($sort_type=='LtH'){
+          $q = "SELECT * FROM products WHERE name LIKE '%$type%' OR shot_desc LIKE  '%$type%' AND status = '1' ORDER BY sell_price ASC LIMIT $start_from, $limit";
+          $low_to_high = 'selected';
+      }
+      if($sort_type=='HtL'){
+          $q = "SELECT * FROM products WHERE name LIKE '%$type%' OR shot_desc LIKE  '%$type%' AND status = '1' ORDER BY sell_price DESC LIMIT $start_from, $limit";
+          $high_to_low = 'selected';
+      }
+      if($sort_type=='NC'){
+          $q = "SELECT * FROM products WHERE name LIKE '%$type%' OR shot_desc LIKE  '%$type%' AND status = '1' ORDER BY created DESC LIMIT $start_from, $limit";
+          $new_collectin = 'selected';
+      }
+      if($sort_type=='OC'){
+          $q = "SELECT * FROM products WHERE name LIKE '%$type%' OR shot_desc LIKE  '%$type%' AND status = '1' ORDER BY created ASC LIMIT $start_from, $limit";
+          $old_collection = 'selected';
+      }else{
+        $q = "SELECT * FROM products WHERE name LIKE '%$type%' OR shot_desc LIKE  '%$type%' AND status = '1' LIMIT $start_from, $limit";
+      }
+    }
+    else{
+      $q = "SELECT * FROM products WHERE name LIKE '%$type%' OR shot_desc LIKE  '%$type%' AND status = '1' LIMIT $start_from, $limit";
+    }
+  }
+  
   
 ?>
   <!-- product category -->
@@ -10,15 +57,16 @@
           <div class="aa-product-catg-content">
             <div class="aa-product-catg-head">
               <div class="aa-product-catg-head-left">
-                <!-- <form action="" class="aa-sort-form">
+               
                   <label for="">Sort by</label>
-                  <select name="">
-                    <option value="1" selected="Default">Default</option>
-                    <option value="2">Name</option>
-                    <option value="3">Price</option>
-                    <option value="4">Date</option>
+                  <select id="sort_by" key="<?php echo $_GET['search']?>">
+                    <option>Default</option>
+                    <option value="LtH" <?php echo $low_to_high; ?> >Low to High</option>
+                    <option value="HtL" <?php echo $high_to_low; ?> >High to Low</option>
+                    <option value="NC" <?php echo $new_collectin; ?> >New Collection</option>
+                    <option value="OC" <?php echo $old_collection; ?> >Old Collection</option>
                   </select>
-                </form> -->
+               
                 <!-- <form action="" class="aa-show-form">
                   <label for="">Show</label>
                   <select name="">
@@ -36,12 +84,7 @@
             <div class="aa-product-catg-body">
               <ul class="aa-product-catg">
               <?php
-                if(empty($_POST)||$_POST['search']==''){
-                  $q = "SELECT * FROM `products` ORDER BY id desc";
-                }else{
-                  $type  = $_POST['search'];
-                  $q = "SELECT * FROM products WHERE name LIKE '%$type%' OR shot_desc LIKE  '%$type%'";
-                }
+                
 
                 $dataQuery = mysqli_query($conn, $q);
                 // $rowcount=mysqli_num_rows($dataQuery);
@@ -54,7 +97,7 @@
                 <li>
                   <figure>
                     <a class="aa-product-img" href="product-detail.php?pid=<?php echo $row['id']?>"><img src="media/product/<?php echo $row['image']?>" height="300" width="250" style="height:100%" alt="polo shirt img"></a>
-                    <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a><br><br>
+                    <a class="aa-add-card-btn addtocart" href="javascript:void(0)" p_id="<?php echo $row['id']?>"><span class="fa fa-shopping-cart"></span>Add To Cart</a><br><br>
                     <figcaption>
                       <h4 class="aa-product-title"><a href="#"><?php echo $row['name']?></a></h4>
                       <span class="aa-product-price">$<?php echo $row['price']?></span><span class="aa-product-price"><del>$<?php echo $row['sell_price']?></del></span>
@@ -156,23 +199,29 @@
             </div>
             <div class="aa-product-catg-pagination">
               <nav>
-                <ul class="pagination">
-                  <li>
-                    <a href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li><a href="#">5</a></li>
-                  <li>
-                    <a href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
+              <ul class="pagination">
+              <li style="display:<?php if($page=='1'){echo 'none';}?>;">
+                  <a href="search.php?search=<?php echo $type?>&page=1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+              <?php
+               $res = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(id) as tP FROM products WHERE name LIKE '%$type%' OR shot_desc LIKE  '%$type%' AND status = '1'"));
+               $totle_records = $res['tP'];
+               $totle_pages = ceil($totle_records/$limit);
+               
+
+               for($i=1;$i<=$totle_pages;$i++){
+               ?>
+                <li><a href="search.php?search=<?php echo $type?>&page=<?php echo $i?>" style="background:<?php if($page==$i){echo '#000;color:#fff';}?>;"><?php echo $i?></a></li>
+               <?php }?>
+
+                <li style="display:<?php if($page==$totle_pages){echo 'none';}?>">
+                  <a href="search.php?search=<?php echo $type?>&page=<?php echo $totle_pages?>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
               </nav>
             </div>
           </div>
@@ -210,10 +259,9 @@
               <!-- price range -->
               <div class="aa-sidebar-price-range">
                <form action="">
-                  <div id="skipstep" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-                  </div>
-                  <span id="skip-value-lower" class="example-val">30.00</span>
-                 <span id="skip-value-upper" class="example-val">100.00</span>
+                  <input type="range" name="range" min="30" max="100">
+                  <span id="skip-value-lower" class="example-val">99.00</span>
+                 <span id="skip-value-upper" class="example-val">1500.00</span>
                  <button class="aa-filter-btn" type="submit">Filter</button>
                </form>
               </div>              
@@ -265,3 +313,17 @@
 
 
   <?php include('footer.php'); ?>
+  <script>
+    $(document).ready(function(){
+      $("select#sort_by").change(function(){
+        var sort = $(this).children("option:selected").val();
+        var key = $(this).attr('key');
+        if(sort==''){
+            window.location.href= window.location.href;
+        }else{
+          window.location.href = 'http://localhost/vishal/printshop/search.php?search='+key+'&sortby='+sort;
+        }
+        
+    });
+    });
+  </script>
