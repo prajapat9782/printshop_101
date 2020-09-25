@@ -48,27 +48,32 @@ if(isset($_POST['place_order'])){
         $q = "INSERT INTO `order`( `user_id`, `bill_name`, `bill_email`, `bill_contact`, `address`, `city`, `state`, `zipcode`, `order_amount`, `order_statue`, `payment_type`, `payment_statue` ) VALUES ('$user_id','$bill_name','$bill_email','$bill_num','$bill_address','$bill_city','$bill_state','$bill_pin','$subtotle','$order_statue','$payment_option','$payment_statue')";
         mysqli_query($conn, $q);
         $order_id= mysqli_insert_id($conn);
+      
 
 
         if($payment_option=='on'){
-          require('pay.php');
+          // require('pay.php');
+          ?><script>
+          var JSvar = "<?= $order_id; ?>";
+          window.location.href='pay.php?order_id='+JSvar;
+          </script><?php
         }
-        
-        
+       else{
+          foreach($_SESSION['cart'] as $x => $val){     
+            $q = "select * FROM products WHERE id ='$x'";
+            $res = mysqli_query($conn, $q);
+            $data = mysqli_fetch_assoc($res);                            
+            $qty = $val['qty'];
+            $totle= ($data['sell_price']*$qty);
+            echo "INSERT INTO `order_details`( `order_id`, `product_id`, `qty`, `sub_total`) VALUES ('$order_id','$x','$qty','$totle')";
+            mysqli_query($conn, "INSERT INTO `order_details`( `order_id`, `product_id`, `qty`, `sub_total`) VALUES ('$order_id','$x','$qty','$totle')");
+          }
 
-        foreach($_SESSION['cart'] as $x => $val){     
-          $q = "select * FROM products WHERE id ='$x'";
-          $res = mysqli_query($conn, $q);
-          $data = mysqli_fetch_assoc($res);                            
-          $qty = $val['qty'];
-          $totle= ($data['sell_price']*$qty);
-          mysqli_query($conn, "INSERT INTO `order_details`( `order_id`, `product_id`, `qty`, `sub_total`) VALUES ('$order_id','$x','$qty','$totle')");
+          unset($_SESSION['cart']);
+          ?><script>window.location.href='thank_you.php'</script><?php
         }
-        unset($_SESSION['cart']);
-        if($payment_option=='cod'){
-        ?>
-        <script>window.location.href='thank_you.php'</script>
-        <?php }
+       
+        
   }
 }
 

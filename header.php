@@ -38,7 +38,25 @@
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-    
+    <style>
+      .payment-box{
+        padding-top: 15%;
+      }
+      .razorpay-payment-button{
+        color:#fff;
+        background: linear-gradient(to right, #17aa56, #4593e3) !important;
+        padding: 8px 20px;
+        border:none;
+        outline:none;
+        border-radius:20px;
+        margin:30px ;
+        margin-left: 42%;
+        transition-delay: 1s;
+      }
+      .razorpay-payment-button:hover{
+          background: linear-gradient(to right, #4593e3, #17aa56) !important;
+      }
+    </style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -225,7 +243,7 @@
             <!-- Left nav -->
             <ul class="nav navbar-nav">
               <li><a href="index.php">Home</a></li>
-              <li><a href="shop.php">Shop <span class="caret"></span></a>
+              <li><a href="shop.php">Shop </a>
               </li>
               <li><a href="#">Category <span class="caret"></span></a>
                 <ul class="dropdown-menu">  

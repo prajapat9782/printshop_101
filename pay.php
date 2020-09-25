@@ -1,10 +1,15 @@
 <?php
+include('header.php');
 require('razor.config.php');
+require('config.php');
 require('razorpay-php/Razorpay.php');
-
-
+$orderId = $_GET['order_id'];
+$row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM `order` WHERE id='$orderId'"));
+// print_r($row);
 // Create the Razorpay Order
-
+$subtotle = $row['order_amount'];
+$user_id = $row['user_id']; 
+$userData = mysqli_fetch_assoc(mysqli_query($conn, "select * from user where id = '$user_id'"));
 use Razorpay\Api\Api;
 
 $api = new Api($keyId, $keySecret);
@@ -14,7 +19,7 @@ $api = new Api($keyId, $keySecret);
 // Docs: https://docs.razorpay.com/docs/orders
 //
 $orderData = [
-    'receipt'         => $order_id,
+    'receipt'         => $orderId,
     'amount'          => $subtotle * 100, // 2000 rupees in paise
     'currency'        => 'INR',
     'payment_capture' => 1 // auto capture
@@ -25,14 +30,13 @@ $razorpayOrder = $api->order->create($orderData);
 $razorpayOrderId = $razorpayOrder['id'];
 
 $_SESSION['razorpay_order_id'] = $razorpayOrderId;
-mysqli_query($conn,"UPDATE `order` SET `payment_statue`='pending', `razor_pay_order_id`='$razorpayOrderId' WHERE id = '$order_id'");
+mysqli_query($conn,"UPDATE `order` SET `payment_statue`='pending', `razor_pay_order_id`='$razorpayOrderId' WHERE id = '$orderId'");
 $displayAmount = $amount = $orderData['amount'];
 
 if ($displayCurrency !== 'INR')
 {
     $url = "https://api.fixer.io/latest?symbols=$displayCurrency&base=INR";
     $exchange = json_decode(file_get_contents($url), true);
-
     $displayAmount = $exchange['rates'][$displayCurrency] * $amount / 100;
 }
 
@@ -42,7 +46,6 @@ if (isset($_GET['checkout']) and in_array($_GET['checkout'], ['automatic', 'manu
 {
     $checkout = $_GET['checkout'];
 }
-$userData = mysqli_fetch_assoc(mysqli_query($conn, "select * from user where id = '$user_id'"));
 
 $data = [
     "key"               => $keyId,
@@ -55,7 +58,7 @@ $data = [
     "contact"           => $userData['mobile'],
     ],
     "notes"             => [
-    "merchant_order_id" => $order_id,
+    "merchant_order_id" => $orderId,
     ],
     "theme"             => [
         "color"         => "#F37254"
@@ -73,3 +76,4 @@ if ($displayCurrency !== 'INR')
 $json = json_encode($data);
 
 require("checkout/{$checkout}.php");
+include('footer.php');

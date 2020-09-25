@@ -39,12 +39,25 @@ if (empty($_POST['razorpay_payment_id']) === false)
 
 if ($success === true)
 {
-    $html = "<p>Your payment was successful</p>
-             <p>Payment ID: {$_POST['razorpay_payment_id']}</p>";
+    // $html = "<p>Your payment was successful</p>
+    //          <p>Payment ID: {$_POST['razorpay_payment_id']}</p>";
 
              $payment_id = get_safe_value($conn,$_POST['razorpay_payment_id']);
              $order_payment_id = get_safe_value($conn,$_POST['razorpay_order_id']);  
              mysqli_query($conn, "UPDATE `order` SET `payment_statue`='success',`razor_pay_payment_id`='$payment_id' WHERE `razor_pay_order_id`='$order_payment_id'");
+            $orderDetails = mysqli_fetch_assoc(mysqli_query($conn, "SELECT id FROM `order` WHERE `razor_pay_order_id`='$order_payment_id'"));
+            $order_id = $orderDetails['id'];
+             foreach($_SESSION['cart'] as $x => $val){     
+                $q = "select * FROM products WHERE id ='$x'";
+                $res = mysqli_query($conn, $q);
+                $data = mysqli_fetch_assoc($res);                            
+                $qty = $val['qty'];
+                $totle= ($data['sell_price']*$qty);
+                mysqli_query($conn, "INSERT INTO `order_details`( `order_id`, `product_id`, `qty`, `sub_total`) VALUES ('$order_id','$x','$qty','$totle')");
+              }
+              unset($_SESSION['cart']);
+
+
              ?>
              <script>window.location.href='thank_you.php'</script>
              <?php             

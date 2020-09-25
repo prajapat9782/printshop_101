@@ -1,7 +1,8 @@
 <!--  The entire list of Checkout fields is available at
  https://docs.razorpay.com/docs/checkout-form#checkout-fields -->
-
- <form action="verify.php" method="POST">
+<div class="container mx-center mb-5 payment-box">
+  
+ <form action="verify.php" method="POST" > 
   <script
     src="https://checkout.razorpay.com/v1/checkout.js"
     data-key="<?php echo $data['key']?>"
@@ -22,3 +23,4 @@
   <!-- Any extra fields to be submitted with the form but not sent to Razorpay -->
   <input type="hidden" name="shopping_order_id" value="<?php echo $data['notes']['merchant_order_id']?>">
 </form>
+</div>
