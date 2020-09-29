@@ -83,7 +83,7 @@
                                 <td><?php
                                     $image = isset($row['image'])?$row['image']:'';
                                     if($image!=''){ ?>
-                                            <img src="../category/<?php echo $image?>" alt="image" width="65px" height="65px">
+                                            <img src="../media/product/<?php echo $image?>" alt="image" width="65px" height="65px">
                                    <?php }else{echo 'Null'; } 
                                  ?></td>
                                 <td><?php echo $row['price'] ?></td>
@@ -92,11 +92,11 @@
                                 <td><?php echo $row['status'] ?></td>
                                 <td><?php
                                     if($row['status']=='1'){ ?>
-                                        <a href="category.php?type=change&option=diactive&id=<?php echo $row['id'];?>"><button class="btn btn-danger">Disactive</button></a>
+                                        <a href="product.php?type=change&option=diactive&id=<?php echo $row['id'];?>"><button class="btn btn-danger">Disactive</button></a>
                                 <?php }else{ ?>  
-                                    <a href="category.php?type=change&option=active&id=<?php echo $row['id'];?>"><button class="btn btn-primary">Active</button></a>
+                                    <a href="product.php?type=change&option=active&id=<?php echo $row['id'];?>"><button class="btn btn-primary">Active</button></a>
                                 <?php } ?>
-                                <a onClick=" return confirm('are you sure ?');" href="category.php?type=delete&id=<?php echo $row['id'];?>"><button class="btn btn-danger">Delete</button></a>
+                                <a onClick=" return confirm('are you sure ?');" href="product.php?type=delete&id=<?php echo $row['id'];?>"><button class="btn btn-danger">Delete</button></a>
                                 <a  href="addproduct.php?action=update&id=<?php echo $row['id'];?>"><button class="btn btn-primary">Edit</button></a>
                             </td>
                                 

@@ -33,7 +33,7 @@
                       <tbody>
                         <?php   $uid =1;
                                 $user_id = $_SESSION['user']['login_id'];                          
-                                $res = mysqli_query($conn, "SELECT * FROM `order` WHERE `user_id` = '$user_id' ORDER BY id   DESC");
+                                $res = mysqli_query($conn, "SELECT `order`.*,order_status.staus_name as status FROM `order` INNER JOIN order_status on `order`.order_statue=order_status.sn WHERE `user_id` = '$user_id' ORDER BY id   DESC");
                                 while($row=mysqli_fetch_assoc($res)){
                         ?>
                         <tr>
@@ -42,7 +42,7 @@
                           <td><?php echo $row['order_amount']?></td>
                           <td><?php echo $row['payment_type']?></td>
                           <td><?php echo $row['payment_statue']?></td>
-                          <td><?php echo $row['order_statue']?></td>
+                          <td><?php echo $row['status']?></td>
                           
                         </tr>
                       <?php $uid++; }?>

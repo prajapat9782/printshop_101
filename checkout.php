@@ -33,7 +33,7 @@ if(isset($_POST['place_order'])){
         if($payment_option=='cod'){
           $payment_statue = 'success';
         }
-        $order_statue = 'pending';
+        $order_statue = '1';
 
           $subtotle = 0;
         foreach($_SESSION['cart'] as $x => $val){
