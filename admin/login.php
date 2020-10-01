@@ -22,7 +22,7 @@ if(isset($_POST['submit'])){
         $_SESSION['login']['username'] = $username;
    }else{
        header('Location: login.php');
-       $_SESSION['login']['error'] = 'Something Went wrong!';
+       ?><script>window.alert('login details are mismatch');</script><?php
    }
 }
 ?>
@@ -52,6 +52,7 @@ if(isset($_POST['submit'])){
     <![endif]-->
   </head>
   <body class="login-page">
+ 
     <div class="login-box">
       <div class="login-logo">
         <a href="index2.html"><b>Admin</b>Login</a>
@@ -68,19 +69,15 @@ if(isset($_POST['submit'])){
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="row">
-            <!-- <div class="col-xs-8">    
-              <div class="checkbox icheck">
-                <label>
-                  <input type="checkbox"> Remember Me
-                </label>
-              </div>                        
-            </div> -->
-            <!-- /.col -->
+          
             <div class="col-xs-4">
               <button type="submit" name="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
             </div><!-- /.col -->
+            
           </div>
         </form>
+        
+       
 
         <!-- <div class="social-auth-links text-center">
           <p>- OR -</p>
@@ -94,7 +91,7 @@ if(isset($_POST['submit'])){
 
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->
-
+    
     <!-- jQuery 2.1.3 -->
     <script src="plugins/jQuery/jQuery-2.1.3.min.js"></script>
     <!-- Bootstrap 3.3.2 JS -->

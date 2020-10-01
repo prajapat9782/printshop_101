@@ -1,6 +1,7 @@
 <?php include('header.php');
-  // Pre($_SESSION);
+  Pre($_SESSION);
  
+  // session_destroy();
 ?>
   <!-- Start slider -->
   <section id="aa-slider"> 
