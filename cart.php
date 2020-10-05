@@ -42,18 +42,45 @@
                               $res = mysqli_query($conn, $q);
                               $data = mysqli_fetch_assoc($res);                            
                               $qty = $val['qty'];
-                              $subtotle+= ($data['sell_price']*$qty);
+                              if(isset($_SESSION['user']['wholesaler'])){
+                              if($_SESSION['user']['wholesaler']=='1'){
+                                $subtotle+= ($data['wholesale']*$qty);  
+                              }else{
+                                $subtotle+= ($data['sell_price']*$qty);
+                              }
+                            }else{
+                                $subtotle+= ($data['sell_price']*$qty);
+                              }
+                              
                           ?>
                         <tr>
                           
                           <td><a href="#"><img src="media/product/<?php echo $data['image']?>" alt="img"></a></td>
                           <td><a class="aa-cart-title" href="#"><?php echo $data['name']?></a></td>
-                          <td>$<?php echo $data['sell_price']?></td>
+                          <td>$                          
+                            <?php
+                            if(isset($_SESSION['user']['wholesaler'])){ 
+                                if($_SESSION['user']['wholesaler']=='1'){
+                                echo $data['wholesale'];  
+                                }else{
+                                  echo $data['sell_price'];  
+                                }
+                              }else{
+                                  echo $data['sell_price'];  
+                                }
+                            ?></td>
                           <td>
                               <input class="aa-cart-quantity" type="number" id="<?php echo $x?>qty" min="1" max="6" value="<?php echo $qty ;?>"><br>
                               <a href="javascript:void(0)" class="btn btn-secondry" onclick="manage_cart(<?php echo $x ?>,'update')">update</a>
                           </td>
-                          <td>$<?php echo $data['sell_price']*$qty?></td>
+                          <td>$<?php if(isset($_SESSION['user']['wholesaler'])){ if($_SESSION['user']['wholesaler']=='1'){
+                                echo $data['wholesale']*$qty;  
+                                }else{
+                                  echo $data['sell_price']*$qty;  
+                                }
+                              }else{
+                                   echo $data['sell_price']*$qty;  
+                                }?></td>
                           <td><a class="remove_product" href="javascript:void(0)" pid="<?php echo $x ?>"><fa class="fa fa-trash"></fa></a></td>
                         </tr>
                       <?php }?>

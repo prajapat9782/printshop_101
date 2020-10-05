@@ -36,6 +36,7 @@
             <li><a href="product.php"><i class="fa fa-fw fa-dropbox"></i> Products</a></li>
             <li><a href="category.php"><i class="fa fa-fw fa-bars"></i> Category</a></li>
             <li><a href="order.php"><i class="fa fa-fw fa-bars"></i> Orders</a></li>
+            <li><a href="user.php"><i class="fa fa-fw fa-bars"></i> Users</a></li>
             <!-- <li class="treeview">
               <a href="#">
                 <i class="fa fa-files-o"></i>

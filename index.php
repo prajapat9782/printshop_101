@@ -1,5 +1,5 @@
 <?php include('header.php');
-  Pre($_SESSION);
+  // Pre($_SESSION);
  
   // session_destroy();
 ?>
@@ -192,7 +192,14 @@
                             <a class="aa-add-card-btn addtocart"href="javascript:void(0)" p_id=<?php echo $row['id']?>><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                               <figcaption>
                               <h4 class="aa-product-title"><a href="#"><?php echo $row['name']?></a></h4>
-                              <span class="aa-product-price">$45.50</span><span class="aa-product-price"><del>$65.50</del></span>
+                            <?php if(isset($_SESSION['user']['wholesaler'])){ if($_SESSION['user']['wholesaler']=='1'){ ?>
+                                <span class="aa-product-price">$<?php echo $row['wholesale']?></span><span class="aa-product-price"><del>$<?php echo $row['price']?></del></span>
+                            <?php }else{ ?>
+                              <span class="aa-product-price">$<?php echo $row['sell_price']?></span><span class="aa-product-price"><del>$<?php echo $row['price']?></del></span>
+                           <?php }
+                             }else{ ?>
+                              <span class="aa-product-price">$<?php echo $row['sell_price']?></span><span class="aa-product-price"><del>$<?php echo $row['price']?></del></span>
+                            <?php }?>  
                             </figcaption>
                           </figure>                        
                           <div class="aa-product-hvr-content">
@@ -223,7 +230,14 @@
                             <a class="aa-add-card-btn addtocart"href="javascript:void(0)" p_id=<?php echo $row['id']?>><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                             <figcaption>
                               <h4 class="aa-product-title"><a href="#">This is Title</a></h4>
-                              <span class="aa-product-price">$45.50</span><span class="aa-product-price"><del>$65.50</del></span>
+                              <?php if(isset($_SESSION['user']['login'])){if($_SESSION['user']['wholesaler']=='1'){ ?>
+                                <span class="aa-product-price">$<?php echo $row['wholesale']?></span><span class="aa-product-price"><del>$<?php echo $row['price']?></del></span>
+                            <?php }else{ ?>
+                              <span class="aa-product-price">$<?php echo $row['sell_price']?></span><span class="aa-product-price"><del>$<?php echo $row['price']?></del></span>
+                           <?php }
+                           }else{ ?>
+                              <span class="aa-product-price">$<?php echo $row['sell_price']?></span><span class="aa-product-price"><del>$<?php echo $row['price']?></del></span>
+                            <?php }?>
                             </figcaption>
                           </figure>                         
                           <div class="aa-product-hvr-content">

@@ -383,11 +383,30 @@ if(isset($_POST['place_order'])){
                             $res = mysqli_query($conn, $q);
                             $data = mysqli_fetch_assoc($res);                            
                             $qty = $val['qty'];
-                            $subtotle+= ($data['sell_price']*$qty);
+                            if(isset($_SESSION['user']['wholesaler'])){
+                            if($_SESSION['user']['wholesaler']=='1'){
+                              $subtotle+= ($data['wholesale']*$qty);  
+                            }else{
+                              $subtotle+= ($data['sell_price']*$qty);
+                            }
+                            }else{
+                              $subtotle+= ($data['sell_price']*$qty);
+                            }
+                            // $subtotle+= ($data['sell_price']*$qty);
                         ?>
                         <tr>
                           <td><?php echo $data['name']?><strong> x <?php echo $qty;?></strong></td>
-                          <td>$<?php echo $data['sell_price']*$qty?></td>
+                          <td>$<?php
+                                 if(isset($_SESSION['user']['login'])){
+                                  if($_SESSION['user']['wholesaler']=='1'){
+                                   echo $data['wholesale']*$qty;  
+                                  }else{
+                                    echo $data['sell_price']*$qty; 
+                                  }
+                                }else{
+                                   echo $data['sell_price']*$qty;
+                                }
+                            ?></td>
                         </tr>
                          <?php }?> 
                       </tbody>

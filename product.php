@@ -103,8 +103,16 @@
                     Cart</a><br><br>
                   <figcaption>
                     <h4 class="aa-product-title"><a href="#"><?php echo $row['name']?></a></h4>
-                    <span class="aa-product-price">$<?php echo $row['sell_price']?></span><span
-                      class="aa-product-price"><del>$<?php echo $row['price']?></del></span>
+                    <?php if(isset($_SESSION['user']['wholesaler'])){ if($_SESSION['user']['wholesaler']=='1'){ ?>
+                                <span class="aa-product-price">$<?php echo $row['wholesale']?></span><span class="aa-product-price"><del>$<?php echo $row['price']?></del></span>
+                            <?php }else{ ?>
+                              <span class="aa-product-price">$<?php echo $row['sell_price']?></span><span class="aa-product-price"><del>$<?php echo $row['price']?></del></span>
+                           <?php }
+                          }else{ ?>
+                              <span class="aa-product-price">$<?php echo $row['sell_price']?></span><span class="aa-product-price"><del>$<?php echo $row['price']?></del></span>
+                            <?php }?>
+                    <!-- <span class="aa-product-price">$<?php echo $row['sell_price']?></span><span
+                      class="aa-product-price"><del>$<?php echo $row['price']?></del></span> -->
                     <!-- <p class="aa-product-descrip"><?php echo $row['desc']?></p> -->
                   </figcaption>
                 </figure>

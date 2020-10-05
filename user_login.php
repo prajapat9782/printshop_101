@@ -11,6 +11,7 @@ if($count>0){
     if($data['password']==$password){
         $_SESSION['user']['login']=true;
         $_SESSION['user']['login_id']= $data['id'];
+        $_SESSION['user']['wholesaler']= $data['wholesaler'];
         echo "accept";
     }
     else{

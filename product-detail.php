@@ -26,7 +26,8 @@
                   <div class="aa-product-view-slider">                                
                     <div id="demo-1" class="simpleLens-gallery-container">
                       <div class="simpleLens-container">
-                        <div class="simpleLens-big-image-container"><img src="media/product/<?php echo $details['image']?>" class="zoom" width="250" height="300" ></div>
+                        <div class="simpleLens-big-image-container">
+                        <img id="zoom_01" src="media/product/<?php echo $details['image']?>" data-zoom-image="media/product/101.jpg" class="zoom" width="250" height="300" ></div>
                       </div>
                       <!-- class="simpleLens-lens-image" for view in model   class="simpleLens-big-image" -->
                       <!-- <div class="simpleLens-thumbnails-container">
@@ -48,7 +49,14 @@
                   <div class="aa-product-view-content">
                     <h3><?php echo $details['name']?></h3>
                     <div class="aa-price-block">
-                      <span class="aa-product-view-price">$<?php echo $details['price']?></span>
+                            <?php if(isset($_SESSION['user']['wholesaler'])){ if($_SESSION['user']['wholesaler']=='1'){ ?>
+                                <span class="aa-product-price">$<?php echo $details['wholesale']?></span>
+                            <?php }else{ ?>
+                              <span class="aa-product-price">$<?php echo $details['sell_price']?></span>
+                           <?php }
+                          }else{ ?>
+                              <span class="aa-product-price">$<?php echo $details['sell_price']?></span>
+                            <?php }?>
                       <p class="aa-product-avilability">Avilability: <span style="color: green;"><?php if($details['status']=='1'){ echo "In Stock"; } ?></span><span style="color: red;"> <?php if($details['status']=='0'){echo "Out of Stock"; } ?></span></p>
                     </div>
                     <p><?php echo $details['shot_desc']?></p>
@@ -298,9 +306,14 @@
 
 
   <?php include('footer.php');?>
-  <script src="js/zoom/jquery.zoom.js"></script>
-  <!-- <script>
-    $(document).ready(function(){
-      $('.zoom').zoom({url: 'photo-big.jpg'});
-    })
-  </script> -->
+  <!-- <script src="js/zoom/jquery.zoom.js"></script> -->
+  <script src='elevatezoom-master/jquery-1.8.3.min.js'></script>
+	<script src='elevatezoom-master/jquery.elevatezoom.js'></script>
+  <script>
+    $('#zoom_01').elevateZoom({
+    zoomType: "inner",
+cursor: "crosshair",
+zoomWindowFadeIn: 500,
+zoomWindowFadeOut: 750
+   }); 
+</script>
