@@ -64,22 +64,28 @@ if(!isset($_GET['action']) || $_GET['action']==''){
                             </div>
                             <div class="col-xs-6">
                                     <?php if(isset($data['image'])){ ?>
-                                            <img src="../media/product<?php echo $data['image']?>" alt="product image">
+                                            <img src="../media/product/<?php echo $data['image']?>" alt="product image">
                                   <?php  }?>
                             </div>
                            
                         </div>
                         <div class="row">
-                           <div class="col-xs-6">
+                           <div class="col-xs-4">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Price</label>
                                         <input type="text" name="price" class="form-control"  placeholder="price" value="<?php echo isset($data['price'])?$data['price']:''?>" required>
                                     </div>
                             </div>
-                            <div class="col-xs-6">
+                            <div class="col-xs-4">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Sell Price</label>
                                         <input type="text" name="sellPrice" class="form-control"  placeholder="sell price" value="<?php echo isset($data['sell_price'])?$data['sell_price']:''?>" required>
+                                    </div>
+                            </div>
+                            <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Wholesale Price</label>
+                                        <input type="text" name="wholesale" class="form-control"  placeholder="Wholesale price" value="<?php echo isset($data['wholesale'])?$data['wholesale']:''?>" required>
                                     </div>
                             </div>
                         </div>
@@ -178,7 +184,7 @@ if(isset($_POST['add_product'])){
     }
  }
  if($action == 'add'){
-    $q = "INSERT INTO `products`( `cid`, `name`, `image`, `price`, `sell_price`, `shot_desc`, `long_desc`, `status`) VALUES ('$catid','$name','$file_name','$price','$sellPrice','$short_desc','$description','$status')";
+    $q = "INSERT INTO `products`( `cid`, `name`, `image`, `price`, `sell_price`, `shot_desc`, `long_desc`, `status`,`wholesale`) VALUES ('$catid','$name','$file_name','$price','$sellPrice','$short_desc','$description','$status','$wholesale')";
   
     if(mysqli_query($conn, $q)){
       $_SESSION['form']['success']='product successfully added ';
@@ -190,9 +196,9 @@ if(isset($_POST['add_product'])){
  }
  else{
     if($file_name!=''){
-      $q = "UPDATE `products` SET `cid`='$catid',`name`='$name',`image`='$file_name',`price`='$price',`sell_price`='$sellPrice',`shot_desc`='$short_desc',`long_desc`='$description',`status`='$status' WHERE  `id`='$id'";
+      $q = "UPDATE `products` SET `cid`='$catid',`name`='$name',`image`='$file_name',`price`='$price',`sell_price`='$sellPrice',`shot_desc`='$short_desc',`long_desc`='$description',`status`='$status',`wholesale`='$wholesale' WHERE  `id`='$id'";
     }else{
-      $q = "UPDATE `products` SET `cid`='$catid',`name`='$name',`price`='$price',`sell_price`='$sellPrice',`shot_desc`='$short_desc',`long_desc`='$description',`status`='$status' WHERE  `id`='$id'";
+      $q = "UPDATE `products` SET `cid`='$catid',`name`='$name',`price`='$price',`sell_price`='$sellPrice',`shot_desc`='$short_desc',`long_desc`='$description',`status`='$status' ,`wholesale`='$wholesale' WHERE  `id`='$id'";
     }
     if(mysqli_query($conn, $q)){
       $_SESSION['form']['success']='product Update ';

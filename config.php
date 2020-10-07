@@ -12,9 +12,8 @@ $db_name = "print";
 
 $conn = mysqli_connect($host, $usrname, $password, $db_name);
 
-if(mysqli_connect_errno()){
-    echo "something went wrong ".mysqli_connect_errno();
-    die;
-    
+if(!$conn){
+    echo "something went wrong ".mysqli_connect_error();
+    die;    
 }
 

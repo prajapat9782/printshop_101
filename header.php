@@ -160,8 +160,9 @@
               <div class="aa-logo">
                 <!-- Text based logo -->
                 <a href="index.php">
-                  <span class="fa fa-shopping-cart"></span>
-                  <p>daily<strong>Shop</strong> <span>Your Shopping Partner</span></p>
+                  <!-- <span class="fa fa-shopping-cart"></span> -->
+                  <img src="media/logo.png" alt="" width="165px" >
+                  <!-- <p>daily<strong>Shop</strong> <span>Your Shopping Partner</span></p> -->
                 </a>
                 <!-- img based logo -->
                 <!-- <a href="index.html"><img src="img/logo.jpg" alt="logo img"></a> -->
@@ -255,7 +256,7 @@
                  <?php }?>
                 </ul>
               </li>
-              <li><a href="#">Kids <span class="caret"></span></a>
+              <!-- <li><a href="#">Kids <span class="caret"></span></a>
                 <ul class="dropdown-menu">                
                   <li><a href="#">Casual</a></li>
                   <li><a href="#">Sports</a></li>
@@ -273,9 +274,9 @@
                     </ul>
                   </li>
                 </ul>
-              </li>
+              </li> -->
               <!-- <li><a href="#">Sports</a></li> -->
-             <li><a href="#">Digital <span class="caret"></span></a>
+             <!-- <li><a href="#">Digital <span class="caret"></span></a>
                 <ul class="dropdown-menu">                
                   <li><a href="#">Camera</a></li>
                   <li><a href="#">Mobile</a></li>
@@ -283,7 +284,7 @@
                   <li><a href="#">Laptop</a></li>                                                
                   <li><a href="#">Accesories</a></li>                
                 </ul>
-              </li>
+              </li> -->
 
               <li><a href="#">Earn Money  <span class="caret"></span></a>
                 <ul class="dropdown-menu">                

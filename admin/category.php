@@ -86,7 +86,7 @@
                                  ?></td>
                                
                                 <td><?php echo $row['tag'] ?></td>
-                                <td><?php echo $row['status'] ?></td>
+                                <td><?php if($row['status']=='1'){echo 'Active';}else{echo 'Inactive';}  ?></td>
                                 <td><?php
                                     if($row['status']=='1'){ ?>
                                         <a href="category.php?type=change&option=diactive&id=<?php echo $row['id'];?>"><button class="btn btn-danger">Disactive</button></a>

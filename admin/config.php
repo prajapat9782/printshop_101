@@ -1,8 +1,9 @@
 <?php 
 session_start();
 $conn = mysqli_connect("localhost","root","","print");
-if(mysqli_connect_errno()){
-    echo "something went wrong ".mysqli_connect_errno();
+if(!$conn){
+    echo "something went wrong ".mysqli_connect_error();
    exit();
+}else{
+    include('function.inc.php');
 }
-include('function.inc.php');

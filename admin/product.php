@@ -66,7 +66,8 @@
                         <th>Name</th>
                         <th>Image</th>
                         <th>Price</th>
-                        <th>Sell Price</th>
+                        <th>Sale Price</th>
+                        <th>Wholesale Price</th>
                         <th>Sort Description</th>
                         <th>Status</th>
                         <th>Operation</th>
@@ -88,8 +89,9 @@
                                  ?></td>
                                 <td><?php echo $row['price'] ?></td>
                                 <td><?php echo $row['sell_price'] ?></td>
+                                <td><?php echo $row['wholesale'] ?></td>
                                 <td><?php echo $row['shot_desc'] ?></td>
-                                <td><?php echo $row['status'] ?></td>
+                                <td><?php  if($row['status']=='1'){echo 'Active';}else{echo 'Inactive';} ?></td>
                                 <td><?php
                                     if($row['status']=='1'){ ?>
                                         <a href="product.php?type=change&option=diactive&id=<?php echo $row['id'];?>"><button class="btn btn-danger">Disactive</button></a>
