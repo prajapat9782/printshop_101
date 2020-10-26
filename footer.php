@@ -1,13 +1,14 @@
-<section id="aa-subscribe">
+
+<section id="aa-subscribe" style="display:<?php if(isset($_SESSION['subscribe'])){if($_SESSION['subscribe']){echo "none";}}?>">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="aa-subscribe-area">
-            <h3>Subscribe our newsletter </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex, velit!</p>
-            <form action="" class="aa-subscribe-form">
-              <input type="email" name="" id="" placeholder="Enter your Email">
-              <input type="submit" value="Subscribe">
+            <h3 id="sub_heading">Subscribe our newsletter </h3>            
+            <form class="aa-subscribe-form">                         
+               <input type="email"  id="sub_email" class="form-control" placeholder="Enter your Email">            
+              <!-- <input type="button" style id="sub_btn" value="Subscribe"> -->
+              <button type="button" class="btn btn-info btn-block font-weight-bold" style="margin-top:5px;outline:none" id="sub_btn"> Subscribe </button>
             </form>
           </div>
         </div>
@@ -139,10 +140,11 @@
   </div>     -->
 
 
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <!-- nice number  -->
   <script type="text/javascript" src="nice-number.js"></script>
-  <!-- jQuery library -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="js/bootstrap.js"></script>  
   <!-- SmartMenus jQuery plugin -->
@@ -162,9 +164,43 @@
   <script type="text/javascript" src="js/nouislider.js"></script>
   <!-- Custom js -->
   <script src="js/custom.js"></script> 
+  <!-- Slick Slider JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 
 <script>
 $(document).ready(function(){
+  // alert('working or not');
+  $('#sub_btn').click(function(){
+    var email = $('#sub_email').val();
+    // alert('subascribe button click'+email);
+    var atposition=email.indexOf("@");  
+    var dotposition=email.lastIndexOf(".");  
+    if(atposition<1 || dotposition<atposition+2 || dotposition+2>=email.length){  
+      alert("Please enter a valid e-mail address ");
+    }
+    else
+    {
+      $.ajax({
+          url:'subscribe.php',
+          method:'POST',
+          data:{email:email},
+          success:function(res){            
+              $('#sub_email').css('display','none');
+              $('#sub_heading').html('Thank you for Subscribe');
+              $(this).removeClass("btn-info");
+              $(this).addClass("btn-primary");
+              $(this).html('Subscribed');
+          }
+      });
+    }
+  });
+// sendEmail()=>{
+//     $.ajax({
+      
+//     })
+//   }
+
+
   // alert(1);
   $('#login_form').submit(function(e){
   e.preventDefault();

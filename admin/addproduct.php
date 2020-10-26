@@ -93,10 +93,16 @@ if(!isset($_GET['action']) || $_GET['action']==''){
                             <label for="short_desc">Short Desc</label>
                             <textarea name="short_desc" class="form-control" placeholder="short description" > <?php echo isset($data['shot_desc'])?$data['shot_desc']:''?></textarea>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="short_desc">Description</label>
                             <textarea name="description" class="form-control" placeholder="short description"><?php echo isset($data['long_desc'])?$data['long_desc']:''?></textarea>
-                        </div>
+                        </div> -->
+                          <div style="margin:10px 0px">
+                          <label for="short_desc">Description</label>
+                             <textarea name="description" id="editor"   class="ckeditor" placeholder="short description">
+                                 <?php echo isset($data['long_desc'])?$data['long_desc']:''?>
+                             </textarea>
+                          </div>
                         <div class="form-group">
                             <label for="short_desc">Product Status</label>
                             <select name="status" class="form-control">
@@ -143,7 +149,8 @@ if(!isset($_GET['action']) || $_GET['action']==''){
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="dist/js/demo.js" type="text/javascript"></script> -->
     <!-- page script -->
-    
+    <!-- cdEditor script -->
+    <script src="//cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
 
   </body>
 </html>

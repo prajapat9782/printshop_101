@@ -32,7 +32,10 @@ if(isset($_POST['place_order'])){
         
         if($payment_option=='cod'){
           $payment_statue = 'success';
+        }else{
+            $txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
         }
+        
         $order_statue = '1';
 
           $subtotle = 0;
@@ -45,30 +48,93 @@ if(isset($_POST['place_order'])){
           $subtotle+= ($data['sell_price']*$qty);
         }
 
-        $q = "INSERT INTO `order`( `user_id`, `bill_name`, `bill_email`, `bill_contact`, `address`, `city`, `state`, `zipcode`, `order_amount`, `order_statue`, `payment_type`, `payment_statue` ) VALUES ('$user_id','$bill_name','$bill_email','$bill_num','$bill_address','$bill_city','$bill_state','$bill_pin','$subtotle','$order_statue','$payment_option','$payment_statue')";
+        $q = "INSERT INTO `order`( `user_id`, `bill_name`, `bill_email`, `bill_contact`, `address`, `city`, `state`, `zipcode`, `order_amount`, `order_statue`, `payment_type`, `payment_statue`,`payu_txnid` ) VALUES ('$user_id','$bill_name','$bill_email','$bill_num','$bill_address','$bill_city','$bill_state','$bill_pin','$subtotle','$order_statue','$payment_option','$payment_statue','$txnid')";
         mysqli_query($conn, $q);
         $order_id= mysqli_insert_id($conn);
-      
+        // insert order details in order_details
+        foreach($_SESSION['cart'] as $x => $val){     
+          $q = "select * FROM products WHERE id ='$x'";
+          $res = mysqli_query($conn, $q);
+          $data = mysqli_fetch_assoc($res);                            
+          $qty = $val['qty'];
+          $totle= ($data['sell_price']*$qty);
+           "INSERT INTO `order_details`( `order_id`, `product_id`, `qty`, `sub_total`) VALUES ('$order_id','$x','$qty','$totle')";
+          mysqli_query($conn, "INSERT INTO `order_details`( `order_id`, `product_id`, `qty`, `sub_total`) VALUES ('$order_id','$x','$qty','$totle')");
+        }
 
 
-        if($payment_option=='on'){
-          // require('pay.php');
-          ?><script>
-          var JSvar = "<?= $order_id; ?>";
-          window.location.href='pay.php?order_id='+JSvar;
-          </script><?php
+        if($payment_option=='payu'){
+          $userData = mysqli_fetch_assoc(mysqli_query($conn, "select * from user where id = '$user_id'"));
+
+          $MERCHANT_KEY = "gtKFFx"; 
+          $SALT = "eCwWELxi";
+          $hash_string = '';
+          //$PAYU_BASE_URL = "https://secure.payu.in";
+          $PAYU_BASE_URL = "https://test.payu.in";
+          $action = '';
+          $posted = array();
+          if(!empty($_POST)) {
+            foreach($_POST as $key => $value) {    
+              $posted[$key] = $value; 
+            }
+          }
+          $formError = 0;
+        //   $txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
+          $posted['txnid']=$txnid;
+          $posted['amount']=$subtotle;
+          $posted['firstname']=isset($userData['fname']) ? $userData['fname'] : 'Unknow user';
+          $posted['lastname']=isset($userData['lname']) ? $userData['lname'] : '';
+          $posted['email']=isset($userData['fname']) ? $userData['email'] : '';
+          $posted['phone']=isset($userData['mobile']) ? $userData['mobile'] : '8952986666';
+          $posted['productinfo']="printhubProduct";
+          $posted['key']=$MERCHANT_KEY ;
+          $hash = '';
+          $hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
+          if(empty($posted['hash']) && sizeof($posted) > 0) {
+            if(
+                    empty($posted['key'])
+                    || empty($posted['txnid'])
+                    || empty($posted['amount'])
+                    || empty($posted['firstname'])
+                    || empty($posted['email'])
+                    || empty($posted['phone'])
+                    || empty($posted['productinfo'])
+                   
+            ) {
+              $formError = 1;
+            } else {    
+            $hashVarsSeq = explode('|', $hashSequence);
+            foreach($hashVarsSeq as $hash_var) {
+                $hash_string .= isset($posted[$hash_var]) ? $posted[$hash_var] : '';
+                $hash_string .= '|';
+              }
+              $hash_string .= $SALT;
+              $hash = strtolower(hash('sha512', $hash_string));
+              $action = $PAYU_BASE_URL . '/_payment';
+            }
+          } elseif(!empty($posted['hash'])) {
+            $hash = $posted['hash'];
+            $action = $PAYU_BASE_URL . '/_payment';
+          }
+          
+          
+          $formHtml ='<form method="post" name="payuForm" id="payuForm" action="'.$action.'">
+          <input type="hidden" name="key" value="'.$MERCHANT_KEY.'" />
+          <input type="hidden" name="hash" value="'.$hash.'"/>
+          <input type="hidden" name="txnid" value="'.$posted['txnid'].'" />
+          <input name="amount" type="hidden" value="'.$posted['amount'].'" />
+          <input type="hidden" name="firstname" id="firstname" value="'.$posted['firstname'].'" />
+          <input type="hidden" name="lastname" id="lastname" value="'.$posted['lastname'].'" />
+          <input type="hidden" name="email" id="email" value="'.$posted['email'].'" />
+          <input type="hidden" name="phone" value="'.$posted['phone'].'" />
+          <textarea name="productinfo" style="display:none;">'.$posted['productinfo'].'</textarea>
+          <input type="hidden" name="surl" value="https://freshbrigade.com/printshop/payment_complete.php" />
+          <input type="hidden" name="furl" value="https://freshbrigade.com/printshop/payment_fail.php"/>
+          <input type="submit" style="display:none;"/></form>';
+          echo $formHtml;
+          echo '<script>document.getElementById("payuForm").submit();</script>';
         }
        else{
-          foreach($_SESSION['cart'] as $x => $val){     
-            $q = "select * FROM products WHERE id ='$x'";
-            $res = mysqli_query($conn, $q);
-            $data = mysqli_fetch_assoc($res);                            
-            $qty = $val['qty'];
-            $totle= ($data['sell_price']*$qty);
-            echo "INSERT INTO `order_details`( `order_id`, `product_id`, `qty`, `sub_total`) VALUES ('$order_id','$x','$qty','$totle')";
-            mysqli_query($conn, "INSERT INTO `order_details`( `order_id`, `product_id`, `qty`, `sub_total`) VALUES ('$order_id','$x','$qty','$totle')");
-          }
-
           unset($_SESSION['cart']);
           ?><script>window.location.href='thank_you.php'</script><?php
         }
@@ -76,7 +142,6 @@ if(isset($_POST['place_order'])){
         
   }
 }
-
 ?>
  <!-- Cart view section -->
  <section id="checkout">
@@ -383,30 +448,11 @@ if(isset($_POST['place_order'])){
                             $res = mysqli_query($conn, $q);
                             $data = mysqli_fetch_assoc($res);                            
                             $qty = $val['qty'];
-                            if(isset($_SESSION['user']['wholesaler'])){
-                            if($_SESSION['user']['wholesaler']=='1'){
-                              $subtotle+= ($data['wholesale']*$qty);  
-                            }else{
-                              $subtotle+= ($data['sell_price']*$qty);
-                            }
-                            }else{
-                              $subtotle+= ($data['sell_price']*$qty);
-                            }
-                            // $subtotle+= ($data['sell_price']*$qty);
+                            $subtotle+= ($data['sell_price']*$qty);
                         ?>
                         <tr>
                           <td><?php echo $data['name']?><strong> x <?php echo $qty;?></strong></td>
-                          <td>$<?php
-                                 if(isset($_SESSION['user']['login'])){
-                                  if($_SESSION['user']['wholesaler']=='1'){
-                                   echo $data['wholesale']*$qty;  
-                                  }else{
-                                    echo $data['sell_price']*$qty; 
-                                  }
-                                }else{
-                                   echo $data['sell_price']*$qty;
-                                }
-                            ?></td>
+                          <td>$<?php echo $data['sell_price']*$qty?></td>
                         </tr>
                          <?php }?> 
                       </tbody>
@@ -420,9 +466,9 @@ if(isset($_POST['place_order'])){
                   </div>
                   <h4>Payment Method</h4>
                   <div class="aa-payment-method">                    
-                    <label for="cashdelivery"><input type="radio" id="cashdelivery" name="payment_option" value="cod" checked required> Cash on Delivery </label>
-                    <label for="paypal"><input type="radio" id="paypal" name="payment_option"  required> Via Paypal </label>
-                    <img src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg" border="0" alt="PayPal Acceptance Mark">    
+                    <!-- <label for="cashdelivery"><input type="radio" id="cashdelivery" name="payment_option" value="cod" checked required> Cash on Delivery </label> -->
+                    <label for="paypal"><input type="radio" id="paypal" name="payment_option" value="payu" checked required> <img src="media/PayU.png" alt="payu logo" style="width:50px;margin-left:10px" >  </label>
+                    <!-- <img src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg" border="0" alt="PayPal Acceptance Mark">     -->
                     <input type="submit" name="place_order" value="Place Order" class="aa-browse-btn">                
                   </div>
                 </div>

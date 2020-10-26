@@ -27,7 +27,7 @@
                     <div id="demo-1" class="simpleLens-gallery-container">
                       <div class="simpleLens-container">
                         <div class="simpleLens-big-image-container">
-                        <img id="zoom_01" src="media/product/<?php echo $details['image']?>" data-zoom-image="media/product/101.jpg" class="zoom" width="250" height="300" ></div>
+                        <img id="zoom_01" src="media/product/<?php echo $details['image']?>" data-zoom-image="media/product/<?php echo $details['image']?>" class="zoom" width="250" height="300" ></div>
                       </div>
                       <!-- class="simpleLens-lens-image" for view in model   class="simpleLens-big-image" -->
                       <!-- <div class="simpleLens-thumbnails-container">
@@ -50,12 +50,12 @@
                     <h3><?php echo $details['name']?></h3>
                     <div class="aa-price-block">
                             <?php if(isset($_SESSION['user']['wholesaler'])){ if($_SESSION['user']['wholesaler']=='1'){ ?>
-                                <span class="aa-product-price">$<?php echo $details['wholesale']?></span>
+                                <span class="aa-product-price">&#8377;<?php echo $details['wholesale']?></span>
                             <?php }else{ ?>
-                              <span class="aa-product-price">$<?php echo $details['sell_price']?></span>
+                              <span class="aa-product-price">&#8377;<?php echo $details['sell_price']?></span>
                            <?php }
                           }else{ ?>
-                              <span class="aa-product-price">$<?php echo $details['sell_price']?></span>
+                              <span class="aa-product-price">&#8377;<?php echo $details['sell_price']?></span>
                             <?php }?>
                       <p class="aa-product-avilability">Avilability: <span style="color: green;"><?php if($details['status']=='1'){ echo "In Stock"; } ?></span><span style="color: red;"> <?php if($details['status']=='0'){echo "Out of Stock"; } ?></span></p>
                     </div>
@@ -196,11 +196,19 @@
                 <!-- start single product item -->
                 <li>
                   <figure>
-                    <a class="aa-product-img" href="#"><img src="media/product/<?php echo $row['image']?>" width="250" height="300" alt="polo shirt img"></a>
+                    <a class="aa-product-img" href="#">
+                      <img src="media/product/<?php echo $row['image']?>" width="250" height="300" alt="polo shirt img"></a>
                     <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                      <figcaption>
                       <h4 class="aa-product-title"><a href="#"><?php echo $row['name']?></a></h4>
-                      <span class="aa-product-price">$<?php echo $row['price']?></span><span class="aa-product-price"><del>$<?php echo $row['sell_price']?></del></span>
+                      <?php if(isset($_SESSION['user']['wholesaler'])){ if($_SESSION['user']['wholesaler']=='1'){ ?>
+                                <span class="aa-product-price">&#8377;<?php echo $row['wholesale']?></span><span class="aa-product-price"><del>&#8377;<?php echo $row['price']?></del></span>
+                            <?php }else{ ?>
+                              <span class="aa-product-price">&#8377;<?php echo $row['sell_price']?></span><span class="aa-product-price"><del>&#8377;<?php echo $row['price']?></del></span>
+                           <?php }
+                          }else{ ?>
+                              <span class="aa-product-price">&#8377;<?php echo $row['sell_price']?></span><span class="aa-product-price"><del>&#8377;<?php echo $row['price']?></del></span>
+                            <?php }?>
                     </figcaption>
                   </figure>                     
                   <div class="aa-product-hvr-content">

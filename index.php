@@ -3,6 +3,26 @@
  
   // session_destroy();
 ?>
+<style>
+#exampleModal{
+  top:22%;  
+  border-radius:4px;
+}
+#exampleModal img{
+    width:100%;
+}
+#exampleModal .modal-body{
+    padding:0;
+}
+#exampleModal .modal-dialog{
+    max-width:800px;
+}
+@media only screen and (max-width: 600px) {
+  #exampleModal .modal-dialog{
+    max-width:400px;
+  } 
+}
+</style>
   <!-- Start slider -->
   <section id="aa-slider"> 
     <div class="aa-slider-area">
@@ -12,24 +32,23 @@
             <!-- single slide item -->
             <li>
               <div class="seq-model">
-                <img data-seq src="img/main-banner1.jpg" alt="Men slide img" />
+                <img data-seq src="media/banner.jpg" alt="Men slide img" />
               </div>
               <div class="seq-title">
                <span data-seq>Save Up to 75% Off</span>                
-                <h2 data-seq>Men Collection</h2>                
-                <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
+                <h2 data-seq style="font-family: 'Roboto', sans-serif">Men Collection</h2>                
+                
                 <a data-seq href="shop.php" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
               </div>
             </li>
             <!-- single slide item -->
             <li>
               <div class="seq-model">
-                <img data-seq src="img/main-banner2.jpg" alt="Wristwatch slide img" />
+                <img data-seq src="media/banner1.jpg" alt="Wristwatch slide img" />
               </div>
               <div class="seq-title">
                 <span data-seq>Save Up to 40% Off</span>                
-                <h2 data-seq>Wristwatch Collection</h2>                
-                <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
+                <h2 data-seq>Wristwatch Collection</h2>                                
                 <a data-seq href="shop.php" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
               </div>
             </li>
@@ -40,8 +59,7 @@
               </div>
               <div class="seq-title">
                 <span data-seq>Save Up to 75% Off</span>                
-                <h2 data-seq>Jeans Collection</h2>                
-                <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
+                <h2 data-seq>Jeans Collection</h2>                                
                 <a data-seq href="shop.php" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
               </div>
             </li>
@@ -52,8 +70,7 @@
               </div>
               <div class="seq-title">
                 <span data-seq>Save Up to 75% Off</span>                
-                <h2 data-seq>Exclusive Shoes</h2>                
-                <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
+                <h2 data-seq>Exclusive Shoes</h2>                                
                 <a data-seq href="shop.php" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
               </div>
             </li>
@@ -64,8 +81,7 @@
               </div>
               <div class="seq-title">
                 <span data-seq>Save Up to 50% Off</span>                
-                <h2 data-seq>Best Collection</h2>                
-                <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
+                <h2 data-seq>Best Collection</h2>                                
                 <a data-seq href="shop.php" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
               </div>
             </li>                   
@@ -93,15 +109,15 @@
                   $query1 = mysqli_query($conn, "SELECT * FROM category WHERE off > 60 LIMIT 1");
                   $mData = mysqli_fetch_assoc($query1);
                 ?>
-                 <a href="www.google.com">
+                 <a href="product.php?catID=<?php echo $mData['id']?>">
                   <div class="aa-promo-left">                  
                     <div class="aa-promo-banner">                    
                      
-                        <img src="media/category/<?php echo $mData['image']?>" alt="img">   
+                        <img src="media/category/<?php echo $mData['image']?>" alt="img" style="object-fit:contain !important">   
                                        
                         <div class="aa-prom-content">
-                          <span><?php echo $mData['tag']?>% OFF</span>
-                          <h4><a href="product.php?catID=<?php echo $mData['id']?>"><?php echo $mData['name'] ?></a></h4>                      
+                          
+                          <h4><span><?php echo $mData['name'] ?></span></h4>                      
                         </div>  
                                          
                     </div>                   
@@ -116,13 +132,15 @@
                   while($row=mysqli_fetch_assoc($query2)){
                 ?>
                   <div class="aa-single-promo-right">
+                  <a href="product.php?catID=<?php echo $row['id']?>" >
                     <div class="aa-promo-banner">                      
                       <img src="media/category/<?php echo $row['image']?>" alt="img">                      
                       <div class="aa-prom-content">
-                        <span>Exclusive Item</span>
-                        <h4 ><a href="product.php?catID=<?php echo $row['id']?>" style="color:#000 !important"><?php echo $row['name']?></a></h4>                        
+                        <!-- <span>Exclusive Item</span> -->
+                        <h4><span><?php echo $row['name']?></span> </h4>                        
                       </div>
                     </div>
+                    </a>
                   </div>
                   <?php  }?>
                   <!-- <div class="aa-single-promo-right">
@@ -188,7 +206,9 @@
                         <!-- start single product item -->
                         <li style="border:1px solid #fff">
                           <figure>
-                            <a class="aa-product-img responsive" href="product-detail.php?pid=<?php echo $row['id']?>"><img src="media/product/<?php echo $row['image']?>" style="background-position:cover"  width="250px" height="300px" alt="polo shirt img"></a>
+                            <a class="aa-product-img responsive" href="product-detail.php?pid=<?php echo $row['id']?>" style="heigh:300px;width:250px">
+                            <img src="media/product/<?php echo $row['image']?>" style="background-position:cover;object-fit:cover;width:100%;height:100%"   alt="polo shirt img">
+                          </a>
                             <a class="aa-add-card-btn addtocart"href="javascript:void(0)" p_id=<?php echo $row['id']?>><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                               <figcaption>
                               <h4 class="aa-product-title"><a href="#"><?php echo $row['name']?></a></h4>
@@ -226,7 +246,9 @@
                         <!-- start single product item -->
                         <li style="border:1px solid #fff">
                           <figure>
-                            <a class="aa-product-img" href="product-detail.php?pid=<?php echo $row['id']?>"><img src="media/product/<?php echo $row['image']?>"   width="250px" height="300px" alt="polo shirt img"></a>
+                          <a class="aa-product-img responsive" href="product-detail.php?pid=<?php echo $row['id']?>" >
+                            <img src="media/product/mug-test.jpg" style="background-position:cover;object-fit:cover;width:250px;height:300px"   alt="polo shirt img">
+                          </a>
                             <a class="aa-add-card-btn addtocart"href="javascript:void(0)" p_id=<?php echo $row['id']?>><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                             <figcaption>
                               <h4 class="aa-product-title"><a href="#">This is Title</a></h4>
@@ -433,15 +455,18 @@
                 <!-- Start men popular category -->
                 <div class="tab-pane fade in active" id="popular">
                   <ul class="aa-product-catg aa-popular-slider">
-                    <?php for($i=1;$i<=8;$i++){ ?>
+                    <?php $res = mysqli_query($conn, "SELECT * FROM `products` WHERE popular ='1' AND status='1' limit 8 ");
+                    while($row=mysqli_fetch_assoc($res)){ ?>
                       <!-- start single product item -->
                       <li>
                         <figure>
-                          <a class="aa-product-img" href="#"><img src="img/poster.jpg" alt="polo shirt img"></a>
+                        <a class="aa-product-img responsive" href="product-detail.php?pid=<?php echo $row['id']?>" style="heigh:300px;width:250px">
+                            <img src="media/product/<?php echo $row['image']?>" style="background-position:cover;object-fit:cover;width:100%;height:100%"   alt="polo shirt img">
+                         </a>
                           <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                           <figcaption>
-                            <h4 class="aa-product-title"><a href="#">Polo T-Shirt</a></h4>
-                            <span class="aa-product-price">$45.50</span><span class="aa-product-price"><del>$65.50</del></span>
+                            <h4 class="aa-product-title"><a href="#"><?php echo $row['name'] ?></a></h4>
+                            <span class="aa-product-price"><?php echo $row['price'] ?></span><span class="aa-product-price"><del>$<?php echo $row['sell_price'] ?></del></span>
                           </figcaption>
                         </figure>                     
                         <div class="aa-product-hvr-content">
@@ -462,11 +487,14 @@
                 <!-- start featured product category -->
                 <div class="tab-pane fade" id="featured">
                  <ul class="aa-product-catg aa-featured-slider">
-                      <?php for($i=1;$i<=8;$i++){?>
+                 <?php $res = mysqli_query($conn, "SELECT * FROM `products` WHERE feature ='1' AND status='1' limit 8 ");
+                    while($row=mysqli_fetch_assoc($res)){ ?>
                     <!-- start single product item -->
                     <li>
                       <figure>
-                        <a class="aa-product-img" href="#"><img src="img/cap.jpg" alt="polo shirt img"></a>
+                      <a class="aa-product-img responsive" href="product-detail.php?pid=<?php echo $row['id']?>" style="heigh:300px;width:250px">
+                            <img src="media/product/<?php echo $row['image']?>" style="background-position:cover;object-fit:cover;width:100%;height:100%"   alt="polo shirt img">
+                        </a>
                         <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                          <figcaption>
                           <h4 class="aa-product-title"><a href="#">Polo T-Shirt</a></h4>
@@ -491,11 +519,14 @@
                 <!-- start latest product category -->
                 <div class="tab-pane fade" id="latest">
                   <ul class="aa-product-catg aa-latest-slider">
-                  <?php for($i=1;$i<=8;$i++){?>
+                  <?php $res = mysqli_query($conn, "SELECT * FROM `products` WHERE latest ='1' AND status='1' limit 8 ");
+                    while($row=mysqli_fetch_assoc($res)){ ?>
                     <!-- start single product item -->
                     <li>
                       <figure>
-                        <a class="aa-product-img" href="#"><img src="img/label.jpg" alt="polo shirt img"></a>
+                      <a class="aa-product-img responsive" href="product-detail.php?pid=<?php echo $row['id']?>" style="heigh:300px;width:250px">
+                            <img src="media/product/<?php echo $row['image']?>" style="background-position:cover;object-fit:cover;width:100%;height:100%"   alt="polo shirt img">
+                        </a>
                         <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                          <figcaption>
                           <h4 class="aa-product-title"><a href="#">Polo T-Shirt</a></h4>
@@ -642,5 +673,28 @@
     </div>
   </section> -->
   <!-- / Client Brand -->
+  <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">      
+      <div class="modal-body">
+          <div class="row">
+                      <img src="img/offer.jpg" alt="">
+          </div>
+      </div>     
+    </div>
+  </div>
+</div>
 
   <?php include('footer.php');?>
+
+  <script>
+  $(document).ready(function(){
+    setTimeout(() => {
+      $('#exampleModal').modal('show');
+    }, 2000);
+  })
+  </script>

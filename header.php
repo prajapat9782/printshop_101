@@ -34,7 +34,7 @@
 
     <!-- Main style sheet -->
     <link href="css/style.css" rel="stylesheet">    
-
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Roboto:wght@500&display=swap" rel="stylesheet">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
@@ -76,7 +76,7 @@
     </div>  -->
     <!-- / wpf loader Two -->       
   <!-- SCROLL TOP BUTTON -->
-  <a class="wtbtn" href="https://wa.me/917838745334" target="_blank"><i class="fa fa-whatsapp"></i></a>
+  <a class="wtbtn" href="https://wa.me/8952986666" target="_blank"><i class="fa fa-whatsapp"></i></a>
   <!-- END SCROLL TOP BUTTON -->
 
 
@@ -133,11 +133,11 @@
                   <!-- <li class="hidden-xs"><a href="checkout.php">Checkout</a></li> -->
                   <!-- <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li> -->
                   <?php if(isset($_SESSION['user']['login'])){
-                      echo "<li class='hidden-xs'><a href='#'>Wishlist</a></li>";  
-                      echo "<li><a href='logout.php' >logout</a></li>";
-                      echo "<li><a href='user_order.php' >Your Order</a></li>";
+                      // echo "<li class='hidden-xs'><a href='#'>Wishlist</a></li>";  
+                      echo "<li ><a style='color:#000;font-weight:600' href='logout.php' >logout</a></li>";
+                      echo "<li ><a style='color:#000;font-weight:600' href='user_order.php' >Your Order</a></li>";
                   }else{
-                    echo "<li><a href='register.php' >Login/Signup</a></li>";
+                    echo "<li ><a style='color:#000;font-weight:600' href='register.php' >Login/Signup</a></li>";
                   } ?>
                   
                   
@@ -174,8 +174,8 @@
                <!-- cart box -->
               <div class="aa-cartbox">
                 <a class="aa-cart-link" href="cart.php">
-                  <span class="fa fa-shopping-basket"></span>
-                  <span class="aa-cart-title">MY CART</span>
+                  <span class="fa fa-shopping-basket" style="color:#fff"></span>
+                  <span class="aa-cart-title" style="color:#fff">MY CART</span>
                   <span class="aa-cart-notify" id='itmenumber' ><?php echo $cartCount; ?></span>
                 </a>
                 <!-- <div class="aa-cartbox-summary">
@@ -210,11 +210,39 @@
               </div>
               <!-- / cart box -->
               <?php }}?>
+
+
+              <!-- myAccount start -->
+              <div class="aa-cartbox">
+                <a class="aa-cart-link" href="javascript:void(0)">
+                  <span class="fa fa-user" style="color:#fff"></span>
+                  <span class="aa-cart-title" style="color:#fff">Account</span>                  
+                </a>
+                <div class="aa-cartbox-summary">
+                  <ul>
+                    <li><a style="color:#000" href="shop.php">My Profile</a></li>
+                    <li><a style="color:#000" href="user_order.php">My Orders</a></li>
+                    <li><a style="color:#000" href="track.php">Track Order</a></li>
+                    <li><a style="color:#000" href="shop.php">Tickets</a></li>
+                    <?php if(isset($_SESSION['user']['login'])){ ?>
+                      <li><a style="color:#000" href="logout.php">Logout</a></li>
+                    <?php }else{ ?>
+                        <li><a style="color:#000" href="register.php">Login/Register</a></li>
+                    <?php } ?>
+                  </ul>                  
+                </div>
+              </div>
+
+              <!-- myAccount end -->
+
+
+
+
               <!-- search box -->
               <div class="aa-search-box">
                 <form action="search.php" method="GET">
-                  <input type="text" name="search"  placeholder="Search here ex. 'back cover' " style="font-weight: bold;" required>
-                  <button type="submit"  class="btn" style="background-color:#000"><span class="fa fa-search"></span></button>
+                  <input type="text" name="search" style="border-radius:4px"  placeholder="Search here ex. 'back cover' " style="font-weight: bold;" required>
+                  <button type="submit" style="border:1px solid #fff"  class="btn" style="background-color:#000"><span class="fa fa-search" style="color:#fff"></span></button>
                 </form>
               </div>
               <!-- / search box -->             
@@ -227,7 +255,7 @@
   </header>
   <!-- / header section -->
   <!-- menu -->
-  <section id="menu" style="background-color:#000">
+  <section id="menu" style="background-color:#fff">
     <div class="container">
       <div class="menu-area">
         <!-- Navbar -->
@@ -242,16 +270,16 @@
           </div>
           <div class="navbar-collapse collapse">
             <!-- Left nav -->
-            <ul class="nav navbar-nav">
-              <li><a href="index.php">Home</a></li>
-              <li><a href="shop.php">Shop </a>
+            <ul class="nav navbar-nav" >
+              <li><a style="color:#000" href="index.php">Home</a></li>
+              <li><a style="color:#000" href="shop.php">Shop </a>
               </li>
-              <li><a href="#">Category <span class="caret"></span></a>
+              <li><a style="color:#000" href="#">Category <span class="caret"></span></a>
                 <ul class="dropdown-menu">  
                 <?php $res = mysqli_query($conn, "SELECT * FROM `category` WHERE status ='1'");
                       while($row = mysqli_fetch_assoc($res)){
                 ?>
-                  <li><a href="product.php?catID=<?php echo $row['id']?>"><?php echo $row['name']?></a></li>                                                                
+                  <li><a style="color:#000" href="product.php?catID=<?php echo $row['id']?>"><?php echo $row['name']?></a></li>                                                                
                  
                  <?php }?>
                 </ul>
@@ -276,19 +304,20 @@
                 </ul>
               </li> -->
               <!-- <li><a href="#">Sports</a></li> -->
-             <!-- <li><a href="#">Digital <span class="caret"></span></a>
+              <?php if(isset($_SESSION['user']['login'])){ ?>
+             <li ><a href="javascript:void(0)" style="color:#000">My Account <span class="caret"></span></a>
                 <ul class="dropdown-menu">                
-                  <li><a href="#">Camera</a></li>
-                  <li><a href="#">Mobile</a></li>
-                  <li><a href="#">Tablet</a></li>
-                  <li><a href="#">Laptop</a></li>                                                
-                  <li><a href="#">Accesories</a></li>                
+                  <li><a href="#">My Profile</a></li>
+                  <li><a href="#">Track Order</a></li>
+                  <li><a href="#">My Order</a></li>
+                  <li><a href="#">Gift Vouchers</a></li>                                                
+                  <li><a href="#">Tickets</a></li>                
                 </ul>
-              </li> -->
-
-              <li><a href="#">Earn Money  <span class="caret"></span></a>
+              </li>
+                <?php }?>
+              <li><a style="color:#000" href="javascript:void(0)">Earn Money  <span class="caret"></span></a>
                 <ul class="dropdown-menu">                
-                  <li><a href="aff_login.php">Affiliate Market</a></li>
+                  <li><a style="color:#000" href="aff_login.php">Affiliate Market</a></li>
                   <!-- <li><a href="#">Affiliate Registration</a></li> -->
                 </ul>
               </li>
